@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=1300" />
+	<meta name="keywords" content="вконтакте, звук, изменения звука, новый звук, установить свой звук, вкзвук, вк-звук, звук вконтакте" />
+	<meta name="descrition" content="Замена звуков входящих сообщений и остальных уведомлений в социальной сети ВКонтакте. Сервис установки браузерного расширения и управления своими звуками. Плагин никоим образом не затронет остальную работу ВКонтакте" /> 
+	<meta property="og:image" content="/assets/images/adv.png" />
+	<link rel="image_src" href="/assets/images/adv.png" />
+	<link rel="stylesheet" href="/assets/styles/common.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="/assets/styles/iefix.css" type="text/css" media="screen" />
+		<script type="text/javascript">var ie = true</script> 
+	<![endif]-->
+	<link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+	<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/mgdniegdoedpnhojjocdlhmkamngdhgj" />
+ 	<link href="//fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic" rel="stylesheet" type="text/css" />
+	<title>vkZvuk.ru — сервис изменения стандартного звука входящих сообщений ВКонтакте</title>
+</head>
+<body>
+	<header>
+		<div class="login-panel">
+			<div id="login" class="login-name"><a href="#login">Войти</a></div>
+		</div>
+	</header>
+
+	<div class="browser-lock">
+		<h2>К сожалению, ваш браузер не поддерживает технологии, необходимые для корректной работы сервиса</h2>
+		
+		<div class="browser-list">
+			<a href="http://www.google.com/chrome" target="_blank" title="Установить последнюю версию браузера">
+				<div class="chrome">Google Chrome</div>
+			</a>
+			<a href="http://www.mozilla.com/firefox/" target="_blank" title="Установить последнюю версию браузера">
+				<div class="firefox">Mozilla Firefox</div>
+			</a>
+			<a href="http://www.opera.com/download" target="_blank" title="Установить последнюю версию браузера">
+				<div class="opera">Opera</div>
+			</a>
+			<br class="clear" />
+		</div>
+
+		<div class="browser-ie">
+			<p>Настоятельно рекомендуем выбрать и установить один из предложенных браузеров.<br /> Это бесплатно и займет всего несколько минут</p>
+			<p class="browser-ask">
+				<a href="mailto:ask@vkzvuk.ru?subject=Internet Explorer" target="_blank">Напишите нам, в случае чего</a>
+			</p>
+		</div>
+		<div class="browser-ext">
+			<p>Мы постараемся исправить ситуацию в будущем. <br /> А пока советуем выбрать и установить один из предложенных современных браузеров</p> 
+		</div>
+	</div>
+
+	<div class="message">
+		<div id="alert">
+			<noscript><p>Для корректной работы сайта необходимо <a href="http://www.enable-javascript.com/ru/" target="_blank">включить javascript</a></p></noscript>
+		</div>
+	</div>   
+	
+	<div id="preloader">
+		<img src="/assets/images/preloader.gif" alt="Загрузка…" />
+	</div>
+
+	<div class="page">
+		<div class="main">
+
+			<div class="logo">
+				<img src="/assets/images/logo.png" alt="вкЗвук" />
+				<h2>Замена звуковых уведомлений соцсети ВКонтакте</h2>
+			</div>
+
+			<div class="about">
+				<h1>Надоел стандартный звук сообщения ВКонтакте?</h1>
+				<h2>Установи расширение и выбери мелодию!</h2>					 
+				<div class="about-wrapper">
+					<ul>
+						<li>Выбор и изменение звука всех уведомлений ВКонтакте</li>
+ 						<li>Быстрая и простая установка</li> 
+  						<li>Полная гарантия конфиденциальности передаваемых данных</li>  
+  						<li>Своевременное обновление и мониторинг ошибок</li>   
+  						<li>Расширение не затронет функционал социальной сети</li>  
+					</ul>
+					<button id="download" class="download"><div></div></button>   
+				</div>
+			</div>
+			
+			<div id="list" class="sounds">
+				<div class="sounds-title">
+					Выберите новый звук входящего сообщения ВКонтакте
+				</div> 
+				<div class="sounds-playlist">
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Тихий</div>
+						</div>
+						<input type="radio" name="sound" value="visi" />
+					</div>
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">IM</div>
+						</div>
+						<input type="radio" name="sound" value="im" />
+					</div>
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Котенок</div>
+						</div>
+						<input type="radio" name="sound" value="cat" />
+					</div> 
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Трелль</div>
+						</div>
+						<input type="radio" name="sound" value="trell" />
+					</div>        
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Worms</div>
+						</div>
+						<input type="radio" name="sound" value="worms" />
+					</div>      
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Кселофон</div>
+						</div>
+						<input type="radio" name="sound" value="xfer" />
+					</div>     
+				</div>
+ 				<div class="sounds-playlist">
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Металлофон</div>
+						</div>
+						<input type="radio" name="sound" value="metall" />
+					</div>
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Звук ICQ</div>
+						</div>
+						<input type="radio" name="sound" value="icq" />
+					</div>
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Дверной звонок</div>
+						</div>
+						<input type="radio" name="sound" value="ding" />
+					</div> 
+					<div class="sounds-wrapper cf">
+						<div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Отрыжка</div>
+						</div>
+						<input type="radio" name="sound" value="burp" />   
+					</div>    
+					<div class="sounds-wrapper cf">
+						 <div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Гильза</div>
+						</div>
+						<input type="radio" name="sound" value="sleeve" />      
+					</div>     
+					<div class="sounds-wrapper cf">
+						 <div class="sounds-pleer">
+							<button class="play"></button>  
+							<div class="pleer-title">Стекло</div>
+						</div>
+						<input type="radio" name="sound" value="glass" />   
+					</div>      
+				</div>
+				<br class="clear" />
+				<button id="update" class="update"><div></div></button>
+			</div>
+		</div>
+	</div>
+   
+	<footer>
+		<div class="footer-feedback">
+			 <p><a class="local" target="_blank" title="Отправить электронное письмо разработчикам" href="mailto:ask@vkzvuk.ru?subject=Уведомление об ошибке">Сообщить об ошибке</a></p>
+		</div>   
+	 
+		<div class="footer-border">
+			<div class="blue"></div><div class="green"></div><div class="gray"></div><div class="red"></div>
+		</div>
+		<div class="footer-copy">
+			<p>&copy; 2013 &nbsp;vkZvuk <span title="Сайт работает в режиме полузакрытого тесирования">&beta;</span></p>
+		</div>
+	</footer>
+
+
+	<div id="pleer"></div>
+	
+	<script type="text/javascript">
+		var errors = {
+			server : 'Возникла ошибка доступа к серверу. Попробуйте обновить страницу',
+			update : 'Не удалось обновить звук. При повторении ошибки свяжитесь с администратором'
+		}
+	</script>
+
+	<script type="text/javascript" src="//vkontakte.ru/js/api/openapi.js"></script>
+	<script type="text/javascript" src="/assets/scripts/jquery.js"></script>
+	<script type="text/javascript" src="/assets/scripts/jquery.ibutton.js"></script>
+	<script type="text/javascript" src="/assets/scripts/common.js"></script> 
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-30717968-2']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+</body>
+</html>
