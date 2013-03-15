@@ -1,4 +1,5 @@
-assets/
+assets/*.mp3
+assets/*.ogg
 users/
 extensions/
 config/
