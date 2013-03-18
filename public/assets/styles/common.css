@@ -16,7 +16,6 @@ button:focus,input:focus,textarea:focus,select:focus{outline:none;}
 textarea{resize:none;}
 strong{font-weight: bold;}
 a img{border:0;}
-
 a{color:#000; text-decoration:underline;}
 a:hover{text-decoration:none}
 a.local{border-bottom:1px dashed;text-decoration:none;}
@@ -270,6 +269,12 @@ footer{
 		.footer-border .green{border-color:#21d58c; width:12%;}
 		.footer-border .gray{border-color:#b5b5b5; width:8%;}
 		.footer-border .red{border-color:#e53c05; width:55%;}
+
+	footer .footer-links{
+		position:absolute;
+		left:40px;
+		top:30px;
+	}
 	
 	footer .footer-copy{
 		position:absolute;
