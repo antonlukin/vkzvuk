@@ -1,7 +1,6 @@
-var vkz_path = 'https://assets.vkzvuk.ru/';   
+var vkz_path = 'https://assets.vkzvuk.ru/';
 var vkz_name = 'xfer';
 
- 
 window.onfocus = function() { 
 	if(vkz_cookie(true, 'vkz_clear')){
 		vkz_cookie(false, "vkz_clear", null, {expires: -1});  
@@ -88,8 +87,9 @@ vkz_get = function(){
 	vkz_name = vkz_cookie(true, "vkz_name");
 }
 
-vkz_get();
-	
+vkz_get(); 
+     
+
 if (!window.curNotifier) {
   curNotifier = {
     addQueues: {},
@@ -266,7 +266,7 @@ Notifier = {
     curNotifier.idle_manager.start();
   },
   initFlashTransport: function (options) {
-    // return false; // Temp
+    return false;
     var flashVars = extend({
       onConnectionInit: 'Notifier.onConnectionInit',
       onConnectionFailed: 'Notifier.onConnectionFailed',
@@ -403,7 +403,11 @@ Notifier = {
       case 'reply_mention':
       case 'wall_post':
       case 'comment_photo':
+      case 'comment_photo_reply':
+      case 'comment_photo_mention':
       case 'comment_video':
+      case 'comment_video_reply':
+      case 'comment_video_mention':
       case 'board_mention':
         handlePageCount('nws', ev.add, 'feed', 'section=notifications');
         break;
@@ -454,6 +458,22 @@ Notifier = {
         if (ev.custom && ev.custom[0] == 'app' && cur.app) {
           if (cur.app.params.api_id == ev.custom[1]) {
             cur.app.balanceUpdated(ev.custom[2]);
+          }
+        }
+        break;
+
+      case 'gift_sent':
+        re('left_block10_0');
+        var left_block = ev.add;
+        if (left_block) {
+          var leftBlocksElem = ge('left_blocks'),
+              left_unpaid_gifts = se(left_block);
+          if (leftBlocksElem) {
+            if (leftBlocksElem.firstChild) {
+              leftBlocksElem.insertBefore(left_unpaid_gifts, leftBlocksElem.firstChild);
+            } else {
+              leftBlocksElem.appendChild(left_unpaid_gifts);
+            }
           }
         }
         break;
@@ -1296,7 +1316,7 @@ function Sound(filename) {
   var vkz = vkz_path + vkz_name + ext; 
 
   if (audioObjSupport) {
-    audioObj.src = vkz; 
+	audioObj.src = vkz;  
     var ended = false;
     audioObj.addEventListener('ended', function(){ended = true;}, true);
     audioObj.load();
@@ -1331,7 +1351,7 @@ function Sound(filename) {
         if (swfObj && swfObj.paused) {
           try {
             swfObj.setVolume(1);
-            swfObj.loadAudio(vkz);
+            swfObj.loadAudio('/' + filename + ext);
             swfObj.pauseAudio();
           } catch (e) {debugLog(e);}
         }
@@ -2949,7 +2969,8 @@ FastChat = {
   clistWrapPeer: function (id, data, re) {
     var unread = curFastChat.tabs[id] ? curFastChat.tabs[id].unread : 0,
         online = curFastChat.onlines[id],
-        name = clean(data[0]), href, photoEvents, cls = online ? (online != 1 ? ' fc_contact_mobile' : ' fc_contact_online') : '';
+        href, photoEvents, cls = online ? (online != 1 ? ' fc_contact_mobile' : ' fc_contact_online') : '';
+    var name = (data[0] || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     if (re) {
       name = name.replace(re, '$1<em class="fc_clist_hl">$2</em>');
     }
@@ -3490,7 +3511,7 @@ FastChat = {
         full = full.substr(0, 53) + '..';
       }
 
-      if (domain.match(/^([a-zA-Z0-9\.\_\-]+\.)?(vkontakte\.ru|vk\.com|vk\.cc|vkadre\.ru|vshtate\.ru|userapi\.com)$/)) {
+      if (domain.match(/^([a-zA-Z0-9\.\_\-]+\.)?(vkontakte\.ru|vk\.com|vk\.cc|vkadre\.ru|vshtate\.ru|userapi\.com|vk\.me)$/)) {
         url = url.replace(/[^a-zA-Z0-9#%;_\-.\/?&=\[\]]/g, encodeURIComponent);
         return '<a href="'+ (protocol + url).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '" target="_blank">' + full + '</a>';
       }
@@ -4105,7 +4126,6 @@ function Scrollbar(obj, options) {
     });
     setStyle(this.scrollbar, s);
 
-
     this.inner = ce('div', {
       className: this.clPref + 'scrollbar_inner'
     });
@@ -4134,15 +4154,17 @@ function Scrollbar(obj, options) {
       self.moveY = event.pageY - (self.inner.offsetTop || 0);
 
       window.document.body.style.cursor = 'pointer';
-      addClass(self.inner, this.clPref + 'scrollbar_hovered');
+      addClass(self.inner, self.clPref + 'scrollbar_hovered');
       if (options.startDrag) {
         options.startDrag();
       }
       if (options.onHold) {
         options.onHold(true);
       }
+      self.isDown = true;
       return cancelEvent(event);
     }
+    this.mouseDown = down;
     function keydown(event) {
       switch ((event || window.event).keyCode) {
         case 40:  self.obj.scrollTop += 40; break;
@@ -4157,6 +4179,13 @@ function Scrollbar(obj, options) {
     var wheel = this.wheel.bind(this);
     addEvent(obj, 'mousewheel', wheel);
     addEvent(obj, 'DOMMouseScroll', wheel);
+    addEvent(this.scrollbar, 'mousewheel', wheel);
+    addEvent(this.scrollbar, 'DOMMouseScroll', wheel);
+
+    addEvent(this.scrollbar, 'mouseover', this.contOver.bind(this));
+    addEvent(this.scrollbar, 'mouseout', this.contOut.bind(this));
+    addEvent(this.scrollbar, 'mousedown', this.contDown.bind(this));
+
     if (browser.safari_mobile) {
       var touchstart = function(event) {
         cur.touchY  = event.touches[0].pageY;
@@ -4222,6 +4251,27 @@ function Scrollbar(obj, options) {
   }).bind(this), 0);
 }
 
+Scrollbar.prototype.contOver = function() {
+  this.isOut = false;
+  if (this.shown) {
+    addClass(this.scrollbar, 'scrollbar_c_overed');
+  }
+}
+Scrollbar.prototype.contOut = function() {
+  this.isOut = true;
+  if (this.isDown) return;
+  removeClass(this.scrollbar, 'scrollbar_c_overed');
+}
+Scrollbar.prototype.contDown = function(ev) {
+  var y = ev.offsetY - this.innerHeight / 2 + 5;// - this.innerHeight;
+  var scrH = this.scrollHeight - this.innerHeight;
+
+  var newScroll = Math.floor((this.contHeight() - this.scrollHeight) * Math.min(1, y / scrH));
+  this.obj.scrollTop = newScroll;
+  this.update(true);
+  this.mouseDown(ev);
+}
+
 Scrollbar.prototype._mouseMove = function(event) {
   this.obj.scrollTop = Math.floor((this.contHeight() - this.scrollHeight) * Math.min(1, (event.pageY - this.moveY) / (this.scrollHeight - this.innerHeight - 6)));
   this.update(true);
@@ -4230,6 +4280,10 @@ Scrollbar.prototype._mouseMove = function(event) {
 
 Scrollbar.prototype._mouseUp = function(event) {
   this.moveY = false;
+  this.isDown = false;
+  if (this.isOut) {
+    this.contOut();
+  }
   removeEvent(window.document, 'mousemove', this.mouseMove);
   removeEvent(window.document, 'mouseup', this.mouseUp);
   window.document.body.style.cursor = 'default';
@@ -4256,6 +4310,10 @@ Scrollbar.prototype.wheel = function(event) {
   }
   var stWas = this.obj.scrollTop;
   this.obj.scrollTop -= delta;
+
+  if (this.options.onScroll) {
+    this.options.onScroll(delta);
+  }
 
   if (stWas != this.obj.scrollTop && this.shown !== false) {
     this.update(true);
@@ -4341,11 +4399,13 @@ Scrollbar.prototype.update = function(noChange, updateScroll) {
   var height = this.contHeight();
   if (height <= this.scrollHeight) {
     hide(this.inner, this.bottomShadowDiv, this.topShadowDiv);
+    setStyle(this.scrollbar, {pointerEvents: 'none'});
     this.topShadow = this.bottomShadow = false;
     this.shown = false;
     return;
   } else if (!this.shown) {
     show(this.inner);
+    setStyle(this.scrollbar, {pointerEvents: 'auto'});
     this.shown = true;
   }
 
@@ -4368,7 +4428,7 @@ Scrollbar.prototype.update = function(noChange, updateScroll) {
 
   this.innerHeight = Math.max(40, Math.floor(this.scrollHeight * this.scrollHeight / height));
   this.inner.style.height = this.innerHeight + 'px';
-  this.inner.style.marginTop = Math.floor((this.scrollHeight - this.innerHeight - 6) * progress) + 'px';
+  this.inner.style.marginTop = Math.floor((this.scrollHeight - this.innerHeight - 4) * progress + 2) + 'px';
 
   if (this.options.more && isFunction(this.options.more) && (this.options.contHeight || (height - this.obj.scrollTop < this.scrollHeight * 2))) {
     this.options.more();
@@ -4379,36 +4439,44 @@ Scrollbar.prototype.update = function(noChange, updateScroll) {
 function IframeLoader() {
   var iframe, doc, body, index, sources, aborted_sources;
 
-  function iframe_doc(i) {
+  function iframeDoc(i) {
     try {
       if (i.contentDocument) return i.contentDocument;
-    } catch (e) {};
-    try {
       if (i.contentWindow && i.contentWindow.document) return i.contentWindow.document;
-    } catch (e) {};
-    try {
       return i.document;
     } catch (e) {};
     return false;
   }
+  function getImgHtml(i) {
+    if (doc && doc.body) return '<img id="___img' + i + '" />';
+    else return '<img class="___img' + i + '" />';
+  }
+  function getImg(i) {
+    if (doc && doc.body) return doc.getElementById('___img' + i);
+    else return geByClass1('___img' + i, body);
+  }
   function init() {
     iframe = utilsNode.appendChild(ce('iframe'));
-    doc = iframe_doc(iframe);
-    body = doc.body;
+    doc = iframeDoc(iframe);
+    if (doc && doc.body) {
+      body = doc.body;
+    } else {
+      body = utilsNode.appendChild(ce('div', {}, {display: 'none'}));
+    }
     index = 0;
     sources = [];
   }
   function add(src, onLoad, that) {
     var i = index++;
     sources[i] = {src: src, onLoad: onLoad, that: that};
-    body.appendChild(ce('div', {innerHTML: '<img id="img' + i + '" />'}));
-    var img = doc.getElementById('img' + i);
+    body.appendChild(ce('div', {innerHTML: getImgHtml(i)}));
+    var img = getImg(i);
     img.src = src;
     img.onload = function() {
       var obj = sources[i];
       obj.onLoad && obj.onLoad.call(obj.that || window, obj.src);
       delete sources[i];
-      body.removeChild(doc.getElementById('img' + i).parentNode);
+      body.removeChild(getImg(i).parentNode);
     }
   }
   function abort() {
@@ -4419,8 +4487,8 @@ function IframeLoader() {
     }
     init();
   }
-  function repeat() {
-    if (!aborted_sources) return;
+  function repeat(need_redraw) {
+    if (!aborted_sources) return [];
     var objs = [];
     for (var k in aborted_sources) {
       var obj = aborted_sources[k];
@@ -4428,6 +4496,21 @@ function IframeLoader() {
       objs.push(obj.that);
     }
     aborted_sources = null;
+    if (need_redraw) {
+      var redraw_data = [];
+      each(objs, function() {
+        redraw_data.push([this, this.src]);
+        this.src = '';
+        hide(this);
+      });
+      setTimeout(function(){
+        each(redraw_data, function() {
+          var img = this[0], src = this[1];
+          img.src = src;
+          show(img);
+        });
+      }, 10);
+    }
     return objs;
   }
 
@@ -4441,6 +4524,6 @@ function IframeLoader() {
 }
  
 if(typeof IM == 'object' && IM)
- 	IM.initSound();  
+	IM.initSound();
 
 try{stManager.done('notifier.js');}catch(e){}
