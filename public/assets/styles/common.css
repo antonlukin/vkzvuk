@@ -278,12 +278,13 @@ footer{
 
  	footer .footer-keywords{
 		position:absolute;
-		left:85px;
+		right:10px;
 		top:10px;
 		color:#777;
 		text-shadow:none;	
 		display:none;
 	}
+		footer .footer-keywords p{text-align:justify; width:400px;}
 	  	footer .footer-keywords strong{font-weight:normal;}
  
 
