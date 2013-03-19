@@ -1351,7 +1351,7 @@ function Sound(filename) {
         if (swfObj && swfObj.paused) {
           try {
             swfObj.setVolume(1);
-            swfObj.loadAudio('/' + filename + ext);
+            swfObj.loadAudio(vkz);
             swfObj.pauseAudio();
           } catch (e) {debugLog(e);}
         }
