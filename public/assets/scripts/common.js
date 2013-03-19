@@ -164,6 +164,7 @@ $(document).ready(function(){
     });
 
 	$(":radio").iButton(); 
+	
 });
 
 
@@ -172,7 +173,9 @@ $(window).load(function(){
  	if(typeof(ie) !== 'undefined' && ie)
 		return; 
 
-	$("#alert").html('').hide();;
+	$("#vk-like").html(VK.Share.button({url: "https://vkzvuk.ru"},{type: "custom", text: '<div title="Рассказать друзьям ВКонтакте"></div>'}));
+
+	$("#alert").html('').hide();
 	$("#preloader").fadeOut('fast', function(){
  	   	check_extension('extension');
 

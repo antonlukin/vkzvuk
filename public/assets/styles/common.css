@@ -272,8 +272,35 @@ footer{
 
 	footer .footer-links{
 		position:absolute;
-		left:40px;
-		top:30px;
+		left:25px;
+		top:28px;
+	}
+
+ 	footer .footer-keywords{
+		position:absolute;
+		left:85px;
+		top:10px;
+		color:#777;
+		text-shadow:none;	
+		display:none;
+	}
+	  	footer .footer-keywords strong{font-weight:normal;}
+ 
+
+	footer #vk-like div{
+		background:transparent url(../images/heart.png) 0 0 no-repeat; 
+		height:25px; 
+		width:25px;
+		opacity:0.2;
+		-webkit-transition: opacity .3s ease-in-out;
+		-moz-transition: opacity .3s ease-in-out;
+		-ms-transition: opacity .3s ease-in-out;
+		-o-transition: opacity .3s ease-in-out;
+		transition: opacity .3s ease-in-out;
+	}
+
+ 	footer #vk-like div:hover{ 
+		opacity:0.6;
 	}
 	
 	footer .footer-copy{
