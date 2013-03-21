@@ -64,7 +64,7 @@ function get_sound($user_id){
 	return array(TRUE, $sound);
 } 
 
-function update_sound($user_id, $sound){
+function change_sound($user_id, $sound){
 	if(!file_put_contents(__DIR__ . "/users/{$user_id}", $sound))
 		return FALSE;
 	apc_delete($user_id);
@@ -97,7 +97,7 @@ function query_get(){
 	die_query($message, $status); 
 }   
 
-function query_update(){
+function query_change(){
 	global $sounds; 
 
 	header('Content-type: application/json');
@@ -110,10 +110,10 @@ function query_update(){
 	if(!in_array($q['sound'], $sounds))
 		die_query('undefined sound', FALSE);
 
-	if(!update_sound($q['id'], $q['sound']))
-		die_query('updated error', FALSE);
+	if(!change_sound($q['id'], $q['sound']))
+		die_query('change error', FALSE);
 
-	die_query('updated', TRUE);
+	die_query('changed', TRUE);
 }
 
 function is_ajax(){
@@ -132,7 +132,7 @@ function die_api($message, $success = FALSE){
 
 
 function request_uri($url){
-	$locations = array("api" => "query_api", "get" => "query_get", "update" => "query_update");
+	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change");
 
 	preg_match("~^[a-z0-9]+~", $url, $uri);
 	$uri = array_shift($uri);                                    

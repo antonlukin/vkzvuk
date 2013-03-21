@@ -48,7 +48,7 @@ function update_container() {
 	  	$(".sounds").css('position', 'absolute');
 }
 
-function update_radio(sound){
+function change_radio(sound){
 	$("#list [value='" + sound + "']").trigger('click').attr('checked', 'checked');
 	currentSound = sound;
 
@@ -63,13 +63,13 @@ function get_sound(id){
 		},
 		success: function(data){
 			if(data.success)
-				return update_radio(data.success);
+				return change_radio(data.success);
 		}
 	});          
 }
 
 
-function update_sound(id){
+function change_sound(id){
 
  	var sound = $("#list input:checked").val();
 	if(sound == currentSound || sound === undefined)
@@ -81,13 +81,13 @@ function update_sound(id){
 		});
 
 	$.ajax({
-		type: 'POST', url: '/update', data: "id=" + id + "&sound=" + sound, 
+		type: 'POST', url: '/change', data: "id=" + id + "&sound=" + sound, 
 		error: function(){
 			$("#alert").html("<p>" + errors.server + "</p>").fadeIn('fast');
 		},
 		success: function(data){
 			if(!data.success)
-				$("#alert").html("<p>" + errors.update + "</p>").fadeIn('fast');     
+				$("#alert").html("<p>" + errors.change + "</p>").fadeIn('fast');     
 		
 			vk_refresh();
 			return currentSound = sound;
@@ -101,13 +101,13 @@ function vk_refresh(){
 	$('body').prepend(vk);
 }
 
-function vk_login(response, update){
+function vk_login(response, change){
 	if(!response.session) 
 		return false;
 	vkId = response.session.mid;
 	
-	if(update === true)
- 		update_sound(vkId);
+	if(change === true)
+ 		change_sound(vkId);
 	else
 		get_sound(vkId);
 
@@ -131,8 +131,8 @@ $(document).ready(function(){
 		$("#pleer").html('<audio autoplay="autoplay"><source src="' + filename + '.mp3" type="audio/mpeg" /><source src="' + filename + '.ogg" type="audio/ogg" /><embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3" /></audio>');
 	});
 
-	$("button#update").on('click touchstart', function(){
-		update_sound(vkId);
+	$("button#change").on('click touchstart', function(){
+		change_sound(vkId);
 	
 		return false;
 	});
@@ -146,7 +146,10 @@ $(document).ready(function(){
 				   function(a){location.reload();}, 
 				   function(a){alert(errors.chrome)});
 
-		url = "/extensions/" + detect.browser + "/vkzvuk." + detect.extension;
+ 		if(detect.browser == 'opera') 
+			return alert("Загрузка расширения временно невозможнa. Обязательно возвращайтесь через пару часов");
+
+		url = "/download/" + detect.browser + "/vkzvuk." + detect.extension;
 		document.location.href = url;
 		return false;
 	});

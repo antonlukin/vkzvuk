@@ -1,6 +1,6 @@
 assets/*.mp3
 assets/*.ogg
 users/
-extensions/
+addons/release
 config/
 checker/

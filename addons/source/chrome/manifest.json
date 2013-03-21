@@ -1,0 +1,23 @@
+{
+	"name": "vkZvuk",
+	"version": "1.0.2",
+	"description": "Изменение звуковых уведомлений ВКонтакте",
+	"permissions": ["webRequest", "webRequestBlocking", "*://*.vk.me/*", "*://*.vk.com/*"],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"icons": { 
+		"16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png" 
+	},
+	"content_scripts": [
+    {
+      "matches": ["*://vkzvuk.ru/*"],
+      "js": ["check.js"]
+    }
+	],
+	"manifest_version": 2,
+	"options_page": "options.html",
+	"update_url": "https://vkzvuk.ru/extensions/chrome/updates.xml"
+}

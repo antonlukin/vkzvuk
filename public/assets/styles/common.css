@@ -21,7 +21,7 @@ a:hover{text-decoration:none}
 a.local{border-bottom:1px dashed;text-decoration:none;}
 a.local:hover{border:0;}
 
-button.download, button.update{padding:12px 35px 8px 35px; border:0; box-shadow:1px 1px 10px 0 #111; cursor:pointer;}
+button.download, button.change{padding:12px 35px 8px 35px; border:0; box-shadow:1px 1px 10px 0 #111; cursor:pointer;}
 
 
 ::-moz-selection{background:#eee; color:#222; text-shadow:none;}
@@ -233,7 +233,7 @@ header{
 				
 			.sounds-wrapper .ibutton-container{float:right;}
 
-			.sounds button.update{
+			.sounds button.change{
 				margin-top:10px;
 				float:right;
 				border-bottom:solid 8px #158458;
@@ -244,7 +244,7 @@ header{
  				background-image: -webkit-linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%); 
  				background-image: -ms-linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%); 
 			}
-			.sounds button.update:hover{
+			.sounds button.change:hover{
 				background-image: linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
 				background-image: -o-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
 				background-image: -moz-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
@@ -253,7 +253,7 @@ header{
 				background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(37,227,151)), color-stop(0.81, rgb(28,170,113))); 
 			}
 			
-				.sounds button.update div{background:url(../images/sprite.png) 0 -19px; height:19px; width:110px;}
+				.sounds button.change div{background:url(../images/sprite.png) 0 -19px; height:19px; width:110px;}
 
    	                                  
 footer{
