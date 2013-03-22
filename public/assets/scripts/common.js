@@ -146,9 +146,6 @@ $(document).ready(function(){
 				   function(a){location.reload();}, 
 				   function(a){alert(errors.chrome)});
 
- 		if(detect.browser == 'opera') 
-			return alert("Загрузка расширения временно невозможнa. Обязательно возвращайтесь через пару часов");
-
 		url = "/download/" + detect.browser + "/vkzvuk." + detect.extension;
 		document.location.href = url;
 		return false;

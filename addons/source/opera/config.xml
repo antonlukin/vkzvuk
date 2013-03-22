@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<widget xmlns="http://www.w3.org/ns/widgets" id="https://vkzvuk.ru/" version="1.0">
+  <name>vkZvuk</name>
+  <description>Change vk.com notification sound</description>
+  <author href="https://vkzvuk.ru" email="opera@vkzvuk.ru">Anton Lukin</author>
+  <icon src="icon64.png"/>
+  <feature name="opera:urlfilter"/>
+  <update-description href="https://vkzvuk.ru/update/opera/update.xml"/>
+</widget>
