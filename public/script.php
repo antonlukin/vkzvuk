@@ -11,6 +11,7 @@ define('VKZ_CALLBACK', 'vkz_sound');
 define('VKZ_TTL', 1000); 
 define('APP_ID', '3402716');  
 define('APP_SHARED_SECRET', 'G58hiQ5fP1XKcQ7T4gKG');
+define('ABSPATH', __DIR__ . '/..');
 
 $sounds = array('xfer', 'metall', 'ding', 'icq', 'worms', 'visi', 'im', 'burp', 'glass', 'cat', 'sleeve', 'trell');
 
@@ -56,7 +57,7 @@ function get_sound($user_id){
 	if(apc_exists($user_id) && $sound = apc_fetch($user_id))
 		return array(TRUE, $sound);
 
-	if(!$sound = trim(@file_get_contents(__DIR__ . "/users/{$user_id}")))
+	if(!$sound = trim(@file_get_contents(ABSPATH . "/users/{$user_id}")))
 		return array(FALSE, 'unregistered user');
 	
 	apc_store($user_id, $sound, VKZ_TTL);
@@ -65,7 +66,7 @@ function get_sound($user_id){
 } 
 
 function change_sound($user_id, $sound){
-	if(!file_put_contents(__DIR__ . "/users/{$user_id}", $sound))
+	if(!file_put_contents(ABSPATH . "/users/{$user_id}", $sound))
 		return FALSE;
 	apc_delete($user_id);
 	return TRUE;
