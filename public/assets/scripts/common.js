@@ -23,14 +23,23 @@ function detect_browser(){
 	return false;
 }
 
-
-function check_extension(ext){
-	if(!$(document.body).hasClass(ext))
-		return false;
-
+function show_sounds(fast){
+	if(typeof fast === 'undefined' || !fast)
+		return $(".about").fadeOut(function(){
+			$("#list").fadeIn(); 
+		}); 
 	
 	$(".about").hide();
 	$("#list").show();
+	return;
+}
+
+function check_extension(ext){
+	ext = typeof ext !== 'undefined' ? ext : 'extension';
+	if(!$(document.body).hasClass(ext))
+		return false;
+
+	return true;
 }
 
 function update_container() {
@@ -68,12 +77,11 @@ function get_sound(id){
 	});          
 }
 
-
 function change_sound(id){
 
  	var sound = $("#list input:checked").val();
 	if(sound == currentSound || sound === undefined)
-		return;
+		return false;
 
 	if(id === undefined)
 		return VK.Auth.login(function(response){
@@ -92,7 +100,8 @@ function change_sound(id){
 			vk_refresh();
 			return currentSound = sound;
 		}
-	});     
+	});  
+	return false;
 }
 
 function vk_refresh(){
@@ -118,7 +127,7 @@ function vk_login(response, change){
 } 
 
 function bad_browser(){
-	$(".browser-lock").addClass('not-ie').fadeIn();
+	return $(".browser-lock").addClass('not-ie').fadeIn();
 }
 
 $(document).ready(function(){
@@ -132,8 +141,10 @@ $(document).ready(function(){
 	});
 
 	$("button#change").on('click touchstart', function(){
-		change_sound(vkId);
+ 	   	if(check_extension()) 
+			return change_sound(vkId);
 	
+		$("#alert").html("<p>" + errors.addon + "</p>").fadeIn('fast'); 
 		return false;
 	});
 
@@ -143,12 +154,11 @@ $(document).ready(function(){
 
 		if(detect.browser == 'chrome')
 			return chrome.webstore.install("https://chrome.google.com/webstore/detail/mgdniegdoedpnhojjocdlhmkamngdhgj", 
-				   function(a){location.reload();}, 
-				   function(a){alert(errors.chrome)});
+				   function(a){location.reload();}); 
 
 		url = "/download/" + detect.browser + "/vkzvuk." + detect.extension;
 		document.location.href = url;
-		return false;
+		return show_sounds();
 	});
 
 
@@ -177,7 +187,8 @@ $(window).load(function(){
 
 	$("#alert").html('').hide();
 	$("#preloader").fadeOut('fast', function(){
- 	   	check_extension('extension');
+ 	   	if(check_extension())
+			show_sounds(true);
 
 	    $("#login").show();
 		$(".main").fadeIn('fast');

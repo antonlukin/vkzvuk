@@ -284,7 +284,7 @@ footer{
 		text-shadow:none;	
 		display:none;
 	}
-		footer .footer-keywords p{text-align:justify; width:400px;}
+		footer .footer-keywords p{text-align:justify; width:400px; display:none;}
 	  	footer .footer-keywords strong{font-weight:normal;}
  
 
@@ -347,7 +347,6 @@ footer{
 			.footer-feedback p a{color:#999;}
 
 
-.browser-lock{display:none;}
 
 .message{
 	position:absolute;
@@ -424,33 +423,32 @@ width: 45px;}
 
 input:checked ~ .ibutton-handle{background: transparent url(../images/handler.png) repeat-y scroll 0 100%;}
 
-.browser-lock{
-	z-index:10;
 
-	position:absolute;
+.browser-lock{display:none;}
+
+.browser-lock{
+    z-index:11;
+
+    position:absolute;
 	top:45%;
 	left:50%;
-	height:auto;
+ 	height:auto; 
 	width:420px;
-	margin-top:-150px;
-	margin-left:-210px;
-
+ 	margin-top:-150px;
+	margin-left:-210px; 
 	background:#111;
 	border:solid 1px #0a0a0a;
 	
 	border-radius:2px;
- 	box-shadow:2px 2px 3px #111; 
+ 	box-shadow:2px 2px 3px #111;      
 }
 
 .browser-lock.not-ie .browser-ie, .browser-lock .browser-ext{display:none;}
 .browser-lock.not-ie .browser-ext{display:block;}
 
-
 .browser-lock p{margin:20px; text-align:left; color:#aaa; border-left:solid 1px #999; padding-left:20px;}
 	.browser-lock p.browser-ask{border:0; text-align:right;}
 		.browser-lock p a{color:#aaa;}
-
-
 
 .browser-lock h2{
 	margin:20px;
