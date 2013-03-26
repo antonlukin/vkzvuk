@@ -1304,6 +1304,7 @@ function Sound(filename) {
     var audioObj = ce('audio');
     audioObjSupport = !!(audioObj.canPlayType);
 
+	ext = '.mp3?1';
     if (('no' != audioObj.canPlayType('audio/mpeg')) && ('' != audioObj.canPlayType('audio/mpeg')))
       ext = '.mp3?1';
     else if (('no' != audioObj.canPlayType('audio/ogg; codecs="vorbis"')) && ('' != audioObj.canPlayType('audio/ogg; codecs="vorbis"')))
