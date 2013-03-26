@@ -154,6 +154,7 @@ header{
 			.about-wrapper ul li:nth-child(2n+1){
 				color:#10bbff;    
 			}
+				.about-wrapper ul li a{color:inherit;}
 
 			.about button.download{
 				margin:20px auto 0 auto;
