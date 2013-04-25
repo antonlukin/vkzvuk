@@ -186,7 +186,7 @@ header{
 		margin-top:-200px;
 		right:20px;
 		width:auto;
-		height:480px;
+		height:520px;
 		
 		z-index:4;
 	}
@@ -259,7 +259,7 @@ header{
    	                                  
 footer{
 	position:relative;
-	z-index:3;
+	z-index:4;
 	width:auto;
 	height:100px;
 	background:#222 url(../images/header-background.png) repeat 0 0; /* transparent*/	
