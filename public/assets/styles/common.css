@@ -277,6 +277,17 @@ footer{
 		top:28px;
 	}
 
+	footer .footer-promo{
+		display:none;
+		position:absolute; 
+		left:65px; 
+		top:25px; 
+		color:#999; 
+		border-left:solid 1px #333; 
+		padding-left:15px;
+		text-align:left; 
+	}
+
  	footer .footer-keywords{
 		position:absolute;
 		right:10px;

@@ -126,6 +126,19 @@ function vk_login(response, change){
 	});
 } 
 
+function show_users(){
+ 	$.ajax({
+		type: 'POST', url: '/users',
+		error: function(data){
+			$("#alert").html("<p>" + errors.server + "</p>").fadeIn('fast');
+		},
+		success: function(data){
+			if(data.success)
+				$("#users-number").prepend(data.success).fadeIn();
+		}
+	});           
+}
+
 function bad_browser(){
 	return $(".browser-lock").addClass('not-ie').fadeIn();
 }
@@ -149,12 +162,13 @@ $(document).ready(function(){
 	});
 
 	$("button#download").on('click touchstart', function(){
+		var chromeUrl = "https://chrome.google.com/webstore/detail/mgdniegdoedpnhojjocdlhmkamngdhgj";
 		if(!(detect = detect_browser()))
 			return bad_browser();
 
 		if(detect.browser == 'chrome')
-			return chrome.webstore.install("https://chrome.google.com/webstore/detail/mgdniegdoedpnhojjocdlhmkamngdhgj", 
-				   function(a){location.reload();}); 
+			return chrome.webstore.install(chromeUrl, 
+				   function(a){location.reload();}, function(a){location.href = chromeUrl}); 
 
 		url = "/download/" + detect.browser + "/vkzvuk." + detect.extension;
 		document.location.href = url;
@@ -193,4 +207,6 @@ $(window).load(function(){
 	    $("#login").show();
 		$(".main").fadeIn('fast');
 	});
+
+	show_users();
 }); 

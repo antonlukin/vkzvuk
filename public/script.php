@@ -117,6 +117,12 @@ function query_change(){
 	die_query('changed', TRUE);
 }
 
+function query_users(){
+	header('Content-type: application/json');  
+
+	die_query(count(scandir(ABSPATH . "/users/")), TRUE);
+}
+
 function is_ajax(){
 	return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 }
@@ -133,7 +139,7 @@ function die_api($message, $success = FALSE){
 
 
 function request_uri($url){
-	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change");
+	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users");
 
 	preg_match("~^[a-z0-9]+~", $url, $uri);
 	$uri = array_shift($uri);                                    
