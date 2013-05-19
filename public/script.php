@@ -118,8 +118,10 @@ function query_change(){
 }
 
 function query_users(){
-	header('Content-type: application/json');  
+	if(!is_ajax())
+		header("Location: /");
 
+	header('Content-type: application/json');  
 	die_query(count(scandir(ABSPATH . "/users/")), TRUE);
 }
 
