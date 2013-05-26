@@ -1,3 +1,6 @@
+if(typeof VK === 'undefined')
+	throw $("#alert").html("<p>" + errors.novk + "</p>").fadeIn('fast');    
+
 VK.init({apiId: 3402716}); 
 VK.Auth.getLoginStatus(vk_login);  
 
