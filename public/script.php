@@ -144,7 +144,7 @@ function change_sound($user_id, $sound){
 	$select = db_num_rows($db, "SELECT COUNT(vkid) FROM users WHERE vkid = ?", array($user_id));
 
 	if((int)$select == 0)
-		$query = "INSERT INTO users (vkid, sound) SELECT :user_id, id FROM sounds WHERE sounds.slug = :sound";
+		$query = "INSERT INTO users (vkid, sound, created) SELECT :user_id, id, NOW() FROM sounds WHERE sounds.slug = :sound";
 	else
 		$query = "UPDATE users AS u,(SELECT id FROM sounds WHERE slug = :sound) AS s SET u.sound = s.id WHERE u.vkid = :user_id";
 
