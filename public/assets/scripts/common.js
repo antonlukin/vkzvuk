@@ -1,5 +1,5 @@
 if(typeof VK === 'undefined')
-	throw $("#alert").html("<p>" + errors.novk + "</p>").fadeIn('fast');    
+	throw show_error(errors.novk);
 
 VK.init({apiId: 3402716}); 
 VK.Auth.getLoginStatus(vk_login);  
@@ -26,7 +26,51 @@ function detect_browser(){
 	return false;
 }
 
+function show_error(message, hide){
+ 	if(typeof hide !== 'undefined' && hide) 
+		$(".main").css('visibility', 'hidden');
+
+	$("#alert").html("<p>" + message + "</p>").fadeIn('fast'); 
+
+	return false;
+}
+
+function generate_list(){
+	$.ajax({
+		type: 'POST', url: '/sounds', data: "",
+		error: function(){
+			return show_error(errors.server, true);
+		},
+		async: false,
+		success: function(data){
+ 			if(data.error)
+				return show_error(errors.database, true); 
+
+			var placeholder = $("#list .sounds-placeholder").html();
+			$("#list .sounds-placeholder").remove();
+
+			$.each(data, function(i, item){
+				if(i % 6 == 0){
+					playlist = document.createElement('div');
+					$(playlist).addClass('sounds-playlist');
+					$("#list .sounds-title").after(playlist);
+				}
+				pleer = $(placeholder).appendTo(playlist);
+                $(pleer).find(".pleer-title").text(item.title);
+ 				$(pleer).find("input").val(item.slug);  
+			});
+
+			$(":radio").iButton(); 
+		}
+	});        
+}
+
 function show_sounds(fast){
+	generate_list();
+
+	if(vkId)
+		get_sound(vkId); 
+
 	if(typeof fast === 'undefined' || !fast)
 		return $(".about").fadeOut(function(){
 			$("#list").fadeIn(); 
@@ -34,7 +78,6 @@ function show_sounds(fast){
 	
 	$(".about").hide();
 	$("#list").show();
-	return;
 }
 
 function check_extension(ext){
@@ -71,7 +114,7 @@ function get_sound(id){
 	$.ajax({
 		type: 'POST', url: '/get', data: "id=" + id, 
 		error: function(data){
-			$("#alert").html("<p>" + errors.server + "</p>").fadeIn('fast');
+			return show_error(errors.server);
 		},
 		success: function(data){
 			if(data.success)
@@ -81,7 +124,6 @@ function get_sound(id){
 }
 
 function change_sound(id){
-
  	var sound = $("#list input:checked").val();
 	if(sound == currentSound || sound === undefined)
 		return false;
@@ -94,11 +136,11 @@ function change_sound(id){
 	$.ajax({
 		type: 'POST', url: '/change', data: "id=" + id + "&sound=" + sound, 
 		error: function(){
-			$("#alert").html("<p>" + errors.server + "</p>").fadeIn('fast');
+			return show_error(errors.server); 
 		},
 		success: function(data){
 			if(!data.success)
-				$("#alert").html("<p>" + errors.change + "</p>").fadeIn('fast');     
+				return show_error(errors.change);  
 		
 			vk_refresh();
 			return currentSound = sound;
@@ -120,8 +162,6 @@ function vk_login(response, change){
 	
 	if(change === true)
  		change_sound(vkId);
-	else
-		get_sound(vkId);
 
 	var code = 'return {me: API.getProfiles({uids: "' + vkId + '", fields: "first_name, last_name, photo_rec, nickname"})[0]};';
 	VK.Api.call('execute', {'code': code}, function(cu){
@@ -133,7 +173,7 @@ function show_users(){
  	$.ajax({
 		type: 'POST', url: '/users',
 		error: function(data){
-			$("#alert").html("<p>" + errors.server + "</p>").fadeIn('fast');
+			return show_error(errors.server);           
 		},
 		success: function(data){
 			if(data.success)
@@ -147,11 +187,11 @@ function bad_browser(){
 }
 
 $(document).ready(function(){
-	$(".browser-lock.not-ie").live('click touchstart', function(){
+	$(".browser-lock.not-ie").on('click touchstart', 'div', function(){
 		$(this).fadeOut();
 	})
 
-	$("button.play").on('click touchstart', function(){
+	$("button.play").live('click touchstart', function(){
 		var filename = "//assets.vkzvuk.ru/" + $(this).closest(".sounds-wrapper").find("input").val();
 		$("#pleer").html('<audio autoplay="autoplay"><source src="' + filename + '.mp3" type="audio/mpeg" /><source src="' + filename + '.ogg" type="audio/ogg" /><embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3" /></audio>');
 	});
@@ -160,8 +200,7 @@ $(document).ready(function(){
  	   	if(check_extension()) 
 			return change_sound(vkId);
 	
-		$("#alert").html("<p>" + errors.addon + "</p>").fadeIn('fast'); 
-		return false;
+		return show_error(errors.addon);   
 	});
 
 	$("button#download").on('click touchstart', function(){
@@ -190,7 +229,6 @@ $(document).ready(function(){
         update_container();
     });
 
-	$(":radio").iButton(); 
 	
 });
 
@@ -209,6 +247,7 @@ $(window).load(function(){
 
 	    $("#login").show();
 		$(".main").fadeIn('fast');
+
 	});
 
 	show_users();

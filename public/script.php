@@ -1,20 +1,16 @@
 <?php
 /*
 Script name: vkZvuk functionality handler
-Description: Return user sound filename
-Version: 1.0
+Description: Retrieve and update user's sound
+Version: 1.1
 Developer: Anton Lukin <anton@lukin.me>
 License: Active link to http://vkzvuk.ru required 
  */ 
 
-define('VKZ_CALLBACK', 'vkz_sound');
-define('VKZ_TTL', 1000); 
-define('APP_ID', '3402716');  
-define('APP_SHARED_SECRET', 'G58hiQ5fP1XKcQ7T4gKG');
-define('ABSPATH', __DIR__ . '/..');
 
-$sounds = array('xfer', 'metall', 'ding', 'icq', 'worms', 'visi', 'im', 'burp', 'glass', 'cat', 'sleeve', 'trell');
-
+function init_settings(){
+	require_once('../config/settings.php');
+}
 
 function parse_cookie($user_id){
 	$session = array();
@@ -50,6 +46,72 @@ function parse_cookie($user_id){
 	return FALSE;
 }
 
+function db_connect(){
+	try{
+		$link = new PDO(DB_TYPE.":host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PWD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")); 
+		$link->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+		return $link;
+	}
+	catch(PDOException $e) {
+		return false;
+	}
+}
+
+function db_select($link, $query, $data = false, $result = array()){
+	try{    
+		if(!$data)
+			$query = $link->query($query);
+		
+		else {
+			$query = $link->prepare($query);
+			$query->execute($data);
+		}
+
+		$query->setFetchMode(PDO::FETCH_ASSOC);  
+
+		while($row = $query->fetch()) 
+			$result[] = $row;
+	}
+	catch(PDOException $e) {
+		return false;
+	} 
+	return $result;
+}
+
+function db_row($link, $query, $data = false){
+	$result = db_select($link, $query, $data);
+	return $result[0];
+}
+
+function db_num_rows($link, $query, $data = array()){
+	$result = $link->prepare($query);  
+	$result->execute($data);      
+
+	return $result->fetchColumn();
+}
+
+function db_query($link, $query, $data = array()){
+	try{ 
+		$link->beginTransaction();
+
+		$prepare = $link->prepare($query);  
+		$prepare->execute($data); 
+
+		$link->commit();
+	}
+	catch(PDOException $e) {
+		$link->rollBack();
+
+		return false;
+	}    
+
+	return true;
+}
+
+function db_close($link) {
+	$link = null;
+}  
+
 function get_sound($user_id){
 	if(!is_numeric($user_id))
 		return array(FALSE, 'wrong user id');
@@ -57,7 +119,15 @@ function get_sound($user_id){
 	if(apc_exists($user_id) && $sound = apc_fetch($user_id))
 		return array(TRUE, $sound);
 
-	if(!$sound = trim(@file_get_contents(ABSPATH . "/users/{$user_id}")))
+	$db = db_connect();
+	if(!$db)
+		return array(FALSE, 'cannot connect to database');
+
+	$select = db_row($db, "SELECT slug FROM users JOIN sounds WHERE users.sound = sounds.id AND vkid = ?", array($user_id));
+
+	db_close();
+
+	if(!$sound = $select['slug'])
 		return array(FALSE, 'unregistered user');
 	
 	apc_store($user_id, $sound, VKZ_TTL);
@@ -65,9 +135,26 @@ function get_sound($user_id){
 	return array(TRUE, $sound);
 } 
 
+
 function change_sound($user_id, $sound){
-	if(!file_put_contents(ABSPATH . "/users/{$user_id}", $sound))
+	$db = db_connect();
+	if(!$db)
 		return FALSE;
+
+	$select = db_num_rows($db, "SELECT COUNT(vkid) FROM users WHERE vkid = ?", array($user_id));
+
+	if((int)$select == 0)
+		$query = "INSERT INTO users (vkid, sound) SELECT :user_id, id FROM sounds WHERE sounds.slug = :sound";
+	else
+		$query = "UPDATE users AS u,(SELECT id FROM sounds WHERE slug = :sound) AS s SET u.sound = s.id WHERE u.vkid = :user_id";
+
+    $result = db_query($db, $query, array(':sound' => $sound, ':user_id' => $user_id));
+	
+	db_close();
+
+	if(!$query)
+		return FALSE;
+
 	apc_delete($user_id);
 	return TRUE;
 }
@@ -87,7 +174,7 @@ function query_api(){
 
 function query_get(){
  	header('Content-type: application/json');  
-	
+
 	$q = $_POST;
 
 	if(!parse_cookie($q['id']))
@@ -108,9 +195,6 @@ function query_change(){
  	if(!parse_cookie($q['id']))
 		die_query('authentication required', FALSE);   
 
-	if(!in_array($q['sound'], $sounds))
-		die_query('undefined sound', FALSE);
-
 	if(!change_sound($q['id'], $q['sound']))
 		die_query('change error', FALSE);
 
@@ -122,7 +206,31 @@ function query_users(){
 		header("Location: /");
 
 	header('Content-type: application/json');  
-	die_query(count(scandir(ABSPATH . "/users/")), TRUE);
+
+	$db = db_connect() or 
+		die_query('cannot connect to database', FALSE);
+
+	$select = db_row($db, "SELECT COUNT(vkid) as count FROM users");
+
+	db_close();
+	die_query($select['count'], TRUE);
+}
+
+function query_sounds(){
+	header('Content-type: application/json');  
+
+	$db = db_connect() or 
+		die_query('cannot connect to db', FALSE);
+
+	$sounds = db_select($db, "SELECT slug, title FROM sounds WHERE hidden <> 1");
+
+	if(!$sounds)
+		die_query('cannot select data from db', FALSE);
+
+	db_close($db);
+
+	$result = json_encode($sounds);
+	exit($result);
 }
 
 function is_ajax(){
@@ -141,7 +249,7 @@ function die_api($message, $success = FALSE){
 
 
 function request_uri($url){
-	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users");
+	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users", "sounds" => "query_sounds");
 
 	preg_match("~^[a-z0-9]+~", $url, $uri);
 	$uri = array_shift($uri);                                    
@@ -156,7 +264,6 @@ function request_uri($url){
 } 
 
 {
+	init_settings();
 	request_uri(strtolower(trim($_SERVER['REQUEST_URI'], "/"))); 
 }
-
-?>

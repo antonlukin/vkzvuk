@@ -195,6 +195,9 @@ header{
 			float:right;
 			margin-left:10px;
 		}
+ 		.sounds-placeholder{
+			display:none;
+		}
 
 		.sounds-title{
 			width:100%;

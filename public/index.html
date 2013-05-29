@@ -7,7 +7,7 @@
 	<meta name="description" content="Замена звуков входящих сообщений и остальных уведомлений в социальной сети ВКонтакте. Сервис установки браузерного расширения и управления своими звуками. Плагин никоим образом не затронет остальную работу ВКонтакте" /> 
 	<meta property="og:image" content="/assets/images/adv.png" />
 	<link rel="image_src" href="/assets/images/adv.png" />
-	<link rel="stylesheet" href="/assets/styles/common.css?6" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/assets/styles/common.css?7" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 		<link rel="stylesheet" href="/assets/styles/iefix.css" type="text/css" media="screen" />
 		<script type="text/javascript">var ie = true</script> 
@@ -88,93 +88,14 @@
 				<div class="sounds-title">
 					Выберите новый звук входящего сообщения ВКонтакте
 				</div> 
-				<div class="sounds-playlist">
+				<div class="sounds-placeholder">
 					<div class="sounds-wrapper cf">
 						<div class="sounds-pleer">
 							<button class="play"></button>  
-							<div class="pleer-title">Тихий</div>
+							<div class="pleer-title"></div>
 						</div>
-						<input type="radio" name="sound" value="visi" />
+						<input type="radio" name="sound" value="" />
 					</div>
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">IM</div>
-						</div>
-						<input type="radio" name="sound" value="im" />
-					</div>
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Котенок</div>
-						</div>
-						<input type="radio" name="sound" value="cat" />
-					</div> 
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Трель</div>
-						</div>
-						<input type="radio" name="sound" value="trell" />
-					</div>        
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Worms</div>
-						</div>
-						<input type="radio" name="sound" value="worms" />
-					</div>      
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Ксилофон</div>
-						</div>
-						<input type="radio" name="sound" value="xfer" />
-					</div>     
-				</div>
- 				<div class="sounds-playlist">
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Металлофон</div>
-						</div>
-						<input type="radio" name="sound" value="metall" />
-					</div>
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Звук ICQ</div>
-						</div>
-						<input type="radio" name="sound" value="icq" />
-					</div>
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Дверной звонок</div>
-						</div>
-						<input type="radio" name="sound" value="ding" />
-					</div> 
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Отрыжка</div>
-						</div>
-						<input type="radio" name="sound" value="burp" />   
-					</div>    
-					<div class="sounds-wrapper cf">
-						 <div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Гильза</div>
-						</div>
-						<input type="radio" name="sound" value="sleeve" />      
-					</div>     
-					<div class="sounds-wrapper cf">
-						 <div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title">Стекло</div>
-						</div>
-						<input type="radio" name="sound" value="glass" />   
-					</div>      
 				</div>
 				<br class="clear" />
 				<button id="change" class="change"><div></div></button>
@@ -218,7 +139,8 @@
 			server : 'Возникла ошибка доступа к серверу. Попробуйте <a href="/">обновить страницу</a>',
 			change : 'Не удалось обновить звук. При повторении ошибки свяжитесь с администратором',
  			novk : 'Не удалось подключиться к ВКонтакте. Попробуйте добавить vkZvuk в исключения блокирующих расширений', 
-			chrome : 'К сожалению, не удалось установить расширение. Напишите, пожалуйста, нам об этом'
+			chrome : 'К сожалению, не удалось установить расширение. Напишите, пожалуйста, нам об этом',
+			database : 'Не удалось подключиться к базе данных. Попробуйте еще раз или свяжитесь с разработчиками' 
 		}
 	</script>
 
@@ -226,7 +148,7 @@
 	<script type="text/javascript" src="//vk.com/js/api/share.js?11" charset="windows-1251"></script>
 	<script type="text/javascript" src="/assets/scripts/jquery.js"></script>
 	<script type="text/javascript" src="/assets/scripts/jquery.ibutton.js"></script>
-	<script type="text/javascript" src="/assets/scripts/common.js?6"></script> 
+	<script type="text/javascript" src="/assets/scripts/common.js?7"></script> 
 	<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-30717968-2']);
