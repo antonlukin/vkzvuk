@@ -1,5 +1,6 @@
 assets/*.mp3
 assets/*.ogg
+assets/*.js
 users/
 addons/release
 config/
