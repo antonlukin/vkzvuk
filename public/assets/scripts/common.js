@@ -11,7 +11,10 @@ function detect_browser(){
 	
 	if(/(mobile|android|iphone|tablet|ipad|iron)/.exec(ua))
 		return false;
-	
+
+	if(/(edition next)/.exec(ua))
+		return false;
+
 	var browser = jQuery.browser;
 
 	if(browser.chrome)
