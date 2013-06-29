@@ -3,5 +3,5 @@ assets/*.ogg
 assets/*.js
 users/
 addons/release
-config/
+config/settings.php
 checker/
