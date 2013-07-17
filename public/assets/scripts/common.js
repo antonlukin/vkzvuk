@@ -12,8 +12,8 @@ function detect_browser(){
 	if(/(mobile|android|iphone|tablet|ipad|iron)/.exec(ua))
 		return false;
 
-	if(/(edition next)/.exec(ua))
-		return false;
+	if(/opr\/\d/.exec(ua))
+		return {browser:'chrome', extension:'crx', internal:true}; 
 
 	var browser = jQuery.browser;
 
@@ -211,7 +211,7 @@ $(document).ready(function(){
 		if(!(detect = detect_browser()))
 			return bad_browser();
 
-		if(detect.browser == 'chrome')
+		if(detect.browser == 'chrome' && !detect.internal)
 			return chrome.webstore.install(chromeUrl, 
 				   function(a){location.reload();}, function(a){location.href = chromeUrl}); 
 
