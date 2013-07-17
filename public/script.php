@@ -125,7 +125,7 @@ function get_sound($user_id){
 
 	$select = db_row($db, "SELECT slug FROM users JOIN sounds WHERE users.sound = sounds.id AND vkid = ?", array($user_id));
 
-	db_close();
+	db_close($db);
 
 	if(!$sound = $select['slug'])
 		return array(FALSE, 'unregistered user');
@@ -150,7 +150,7 @@ function change_sound($user_id, $sound){
 
     $result = db_query($db, $query, array(':sound' => $sound, ':user_id' => $user_id));
 	
-	db_close();
+	db_close($db);
 
 	if(!$query)
 		return FALSE;
@@ -212,7 +212,7 @@ function query_users(){
 
 	$select = db_row($db, "SELECT COUNT(vkid) as count FROM users");
 
-	db_close();
+	db_close($db);
 	die_query($select['count'], TRUE);
 }
 
