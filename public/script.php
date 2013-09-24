@@ -80,7 +80,9 @@ function db_select($link, $query, $data = false, $result = array()){
 
 function db_row($link, $query, $data = false){
 	$result = db_select($link, $query, $data);
-	return $result[0];
+	if(isset($result[0]))
+		return $result[0];
+	return false;
 }
 
 function db_num_rows($link, $query, $data = array()){
