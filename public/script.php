@@ -16,7 +16,7 @@ function parse_cookie($user_id){
 	$session = array();
 	$member = FALSE;
 	$valid_keys = array('expire', 'mid', 'secret', 'sid', 'sig');
-	$app_cookie = $_COOKIE['vk_app_'.APP_ID];
+	$app_cookie = @$_COOKIE['vk_app_'.APP_ID];
 	if (!$app_cookie)
 		return FALSE;  
 
