@@ -47,7 +47,7 @@ body{
 	position:relative;
 	padding-bottom:1px;
 	
-	background:#f4f4f4 url(../images/background.jpg);
+	background:#222 url(../images/background.jpg);
 	overflow-x:hidden;
 	max-width:1450px;
 	min-width:1150px;
