@@ -9,7 +9,7 @@ var vkId, currentSound;
 function detect_browser(){ 
 	var ua = navigator.userAgent.toLowerCase();
 	
-	if(/(mobile|android|iphone|tablet|ipad|iron)/.exec(ua))
+	if(/(mobile|android|iphone|tablet|ipad|iron|trident)/.exec(ua))
 		return false;
 
 	if(/opr\/\d/.exec(ua))
