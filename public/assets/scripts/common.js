@@ -49,20 +49,15 @@ function generate_list(){
  			if(data.error)
 				return show_error(errors.database, true); 
 
-			var placeholder = $("#list .sounds-placeholder").html();
-			$("#list .sounds-placeholder").remove();
-
+			var placeholder = $("#sounds .sounds-placeholder").html();
+			$("#sounds .sounds-placeholder").remove();
 			$.each(data, function(i, item){
-				if(i % 6 == 0){
-					playlist = document.createElement('div');
-					$(playlist).addClass('sounds-playlist');
-					$("#list .sounds-title").after(playlist);
-				}
-				pleer = $(placeholder).appendTo(playlist);
+				pleer = $(placeholder).prependTo("#sounds");
                 $(pleer).find(".pleer-title").text(item.title);
  				$(pleer).find("input").val(item.slug);  
 			});
 
+			$("#sounds").mCustomScrollbar({advanced:{updateOnContentResize: true}});
 			$(":radio").iButton(); 
 		}
 	});        
@@ -76,11 +71,11 @@ function show_sounds(fast){
 
 	if(typeof fast === 'undefined' || !fast)
 		return $(".about").fadeOut(function(){
-			$("#list").fadeIn(); 
+			$(".board").fadeIn(); 
 		}); 
 	
 	$(".about").hide();
-	$("#list").show();
+	$(".board").show();
 }
 
 function check_extension(ext){
@@ -93,21 +88,39 @@ function check_extension(ext){
 
 function update_container() {
     var width = $(window).width();
-    if (width <= 1050)
-	 	$(".about").css('position', 'fixed').css('margin-right', '0');   
+	var height = $(window).height(); 
 
-    if (width > 1050)
-	  	$(".about").css('position', 'absolute').css('margin-right', '100px');
+	if(!$(".main").data("image"))
+	    $(".main").data("image", $(".main").css('background-image'));
 
-    if (width <= 1150)
-	 	$(".sounds").css('position', 'fixed');
+	if(width <= 1150)
+		$(".board").css('right', 1170 - width + "px");
+ 
+	if(width > 1150)
+		$(".board").css('right', '20px');
 
-    if (width > 1150)
-	  	$(".sounds").css('position', 'absolute');
+	if(width <= 1100){
+		$(".logo").css('display', 'none');
+		$(".main").css('background-image', 'none');
+		$(".about-wrapper").css('margin-left', '100px');
+	}
+
+	if(width > 1100){
+		$(".logo").css('display', 'block');
+		$(".main").css('background-image', $(".main").data("image"));
+ 		$(".about-wrapper").css('margin-left', '270px'); 
+	}
+
+    if(width <= 1060)
+    	$(".about").css('margin-right', 1160 - width + "px");
+ 
+	if(width > 1060)
+  		$(".about").css('margin-right', '100px');
+
 }
 
 function change_radio(sound){
-	$("#list [value='" + sound + "']").trigger('click').attr('checked', 'checked');
+	$("#sounds [value='" + sound + "']").trigger('click').attr('checked', 'checked');
 	currentSound = sound;
 
 	return;
@@ -127,7 +140,7 @@ function get_sound(id){
 }
 
 function change_sound(id){
- 	var sound = $("#list input:checked").val();
+ 	var sound = $("#sounds input:checked").val();
 	if(sound == currentSound || sound === undefined)
 		return false;
 

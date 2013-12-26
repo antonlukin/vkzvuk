@@ -179,7 +179,8 @@ function query_get(){
 
 	$q = $_POST;
 
-	if(!parse_cookie($q['id']))
+
+	if(!isset($q['id']) || parse_cookie($q['id']))
 		die_query('authentication required', FALSE);
 
 	list($status, $message) = get_sound($q['id']); 
@@ -224,7 +225,7 @@ function query_sounds(){
 	$db = db_connect() or 
 		die_query('cannot connect to db', FALSE);
 
-	$sounds = db_select($db, "SELECT slug, title FROM sounds WHERE hidden <> 1");
+	$sounds = db_select($db, "SELECT slug, title FROM sounds  -- WHERE hidden <> 1");
 
 	if(!$sounds)
 		die_query('cannot select data from db', FALSE);
