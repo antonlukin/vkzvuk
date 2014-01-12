@@ -179,7 +179,7 @@ function query_get(){
 
 	$q = $_POST;
 
-	if(!isset($q['id']) || parse_cookie($q['id']))
+	if(!isset($q['id']) || !parse_cookie($q['id']))
 		die_query('authentication required', FALSE);
 
 	list($status, $message) = get_sound($q['id']); 
