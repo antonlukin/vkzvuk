@@ -84,24 +84,64 @@
 				</div>
 			</div>
 			
-			<div id="list" class="sounds">
-				<div class="sounds-title">
-					Выберите новый звук входящего сообщения ВКонтакте
-				</div> 
-				<div class="sounds-placeholder">
-					<div class="sounds-wrapper cf">
-						<div class="sounds-pleer">
-							<button class="play"></button>  
-							<div class="pleer-title"></div>
+		   <div class="board">
+				<div class="board-add">
+					<h2 class="upload-title">
+						Загрузить собственный звук на сайт	
+					</h2>  
+
+					<form id="upload" method="post" action="/upload" enctype="multipart/form-data">
+						<div class="upload-inner">
+							<div class="upload-result">
+								<h3>Ваш звук успешно загружен</h3>
+								<p>Он появится на сайте после проверки администратором при условии соблюдения правил загрузки</p>
+							</div>
+							<div class="upload-box" id="drop">
+								<p>Переместите сюда звук, чтобы загрузить его</p>
+
+								<button class="browse"><div>Обзор</div></button>
+								<input type="file" name="upl" />
+							</div>   
+							<div class="upload-desc">
+								<ul>
+									<li>формат файла должен быть mp3 или ogg</li>
+									<li>длина звука <a href="http://mp3cut.ru" target="_blank">не более 3 секунд</a></li> 
+ 									<li>размер файла <i>не более 512KB</i></li>  
+									<li>обязательна свободная лицензия на распространение файла</li> 
+									<li>звук появится на сайте после того, как будет одобрен администратором</li>  
+ 									<li>не все загруженные звуки отображаются в списке на сайте</li>
+								</ul>
+							</div>
+							<div class="upload-list" id="uploaded"></div> 
 						</div>
-						<input type="radio" name="sound" value="" />
-					</div>
+						<a id="list" class="board-link local" href="#list">Вернуться к списку звуков</a> 
+					</form>
 				</div>
-				<br class="clear" />
-				<button id="change" class="change"><div></div></button>
+
+				<div class="board-list">
+					<h2 class="sounds-title">
+						Выберите новый звук входящего сообщения ВКонтакте
+					</h2> 
+
+					<div id="sounds">
+						<div class="sounds-placeholder">
+							<div class="sounds-wrapper">
+								<div class="sounds-pleer">
+									<button class="play"></button>  
+									<div class="pleer-title"></div>
+								</div>
+								<input type="radio" name="sound" value="" />
+							</div>
+						</div>
+						<br class="clear" />
+					</div>
+					<a id="add" class="board-link local" href="#add">Добавить свой звук</a>
+					<button id="change" class="change"><div>Обновить</div></button>				
+				</div>
 			</div>
 		</div>
 	</div>
+ 
    
 	<footer>
 		<div class="footer-feedback">
@@ -126,7 +166,7 @@
 		</div>
 		
 		<div class="footer-copy">
-			<p>&copy; 2013 &nbsp;vkZvuk <span title="Сайт работает в режиме открытого тестирования">&beta;</span></p>
+			<p>&copy; 2012&ndash;2014 &nbsp;vkZvuk <span title="Сайт работает в режиме открытого тестирования">&beta;</span></p>
 		</div>
 	</footer>
 
@@ -137,18 +177,21 @@
 		var errors = {
 			addon : 'Кажется, расширение не настроено. Закончите установку, затем <a href="/">обновите страницу</a>', 
 			server : 'Возникла ошибка доступа к серверу. Попробуйте <a href="/">обновить страницу</a>',
-			change : 'Не удалось обновить звук. При повторении ошибки свяжитесь с администратором',
+			change : 'Не удалось обновить звук. При повторении ошибки <a href="https://vk.com/vkzvuk">свяжитесь с администратором</a>',
  			novk : 'Не удалось подключиться к ВКонтакте. Попробуйте добавить vkZvuk в исключения блокирующих расширений', 
-			chrome : 'К сожалению, не удалось установить расширение. Напишите, пожалуйста, нам об этом',
-			database : 'Не удалось подключиться к базе данных. Попробуйте еще раз или свяжитесь с разработчиками' 
+			chrome : 'К сожалению, не удалось установить расширение. Попробуйте еще раз или <a href="https://vk.com/vkzvuk">свяжитесь с разработчиками</a>',
+			database : 'Не удалось подключиться к базе данных. <a href="https://vk.com/vkzvuk">Попробуйте еще раз или свяжитесь с разработчиками</a>',
+			vkauth : 'Необходимо авторизоваться ВКонтакте',
+			filesize : 'Размер загружаемого файла не должен превышать 500KB',
+			upload : 'Невозможно загрузить звук. <a href="https://vk.com/vkzvuk">Попробуйте еще раз или свяжитесь с разработчиками</a>'
 		}
 	</script>
 
   	<script type="text/javascript" src="//vk.com/js/api/openapi.js"></script>
 	<script type="text/javascript" src="//vk.com/js/api/share.js?11" charset="windows-1251"></script>
-	<script type="text/javascript" src="/assets/scripts/jquery.js"></script>
-	<script type="text/javascript" src="/assets/scripts/jquery.ibutton.js"></script>
-	<script type="text/javascript" src="/assets/scripts/common.js?7"></script> 
+	<script type="text/javascript" src="/assets/scripts/jquery.compiled.js"></script>
+	<script type="text/javascript" src="/assets/scripts/main.js"></script> 
+ 
 	<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-30717968-2']);
