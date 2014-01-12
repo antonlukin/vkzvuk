@@ -165,6 +165,8 @@ function change_sound(id){
 			vk_login(response, true)
 		});
 
+ 	vk_refresh(); 
+
 	$.ajax({
 		type: 'POST', url: '/change', data: "id=" + id + "&sound=" + sound, 
 		error: function(){
@@ -174,7 +176,6 @@ function change_sound(id){
 			if(!data.success)
 				return show_error(errors.change);  
 		
-			vk_refresh();
 			return currentSound = sound;
 		}
 	});  
@@ -182,9 +183,11 @@ function change_sound(id){
 }
 
 function vk_refresh(){
-	var vk = $('<iframe />').css('position', 'absolute').css('left', '-9999px');
-	vk.attr('src','//vk.com/settings?vkz-clear');
-	$('body').prepend(vk);
+	var link = document.createElement('a');
+	link.href = 'https://vk.com/settings?vkz-clear';
+	link.setAttribute('target', '_blank');
+	document.body.appendChild(link);
+	link.click();    
 }
 
 function vk_login(response, change){
