@@ -2,7 +2,7 @@
 /*
 Script name: vkZvuk functionality handler
 Description: Retrieve and update user's sound
-Version: 1.1
+Version: 1.3
 Developer: Anton Lukin <anton@lukin.me>
 License: Active link to http://vkzvuk.ru required 
  */ 
@@ -103,7 +103,7 @@ function db_query($link, $query, $data = array()){
 	}
 	catch(PDOException $e) {
 		$link->rollBack();
-
+		
 		return false;
 	}    
 
@@ -154,7 +154,7 @@ function change_sound($user_id, $sound){
 	
 	db_close($db);
 
-	if(!$query)
+	if(!$result)
 		return FALSE;
 
 	apc_delete($user_id);
@@ -179,7 +179,6 @@ function query_get(){
 
 	$q = $_POST;
 
-
 	if(!isset($q['id']) || parse_cookie($q['id']))
 		die_query('authentication required', FALSE);
 
@@ -189,8 +188,6 @@ function query_get(){
 }   
 
 function query_change(){
-	global $sounds; 
-
 	header('Content-type: application/json');
 
 	$q = $_POST;
@@ -236,6 +233,49 @@ function query_sounds(){
 	exit($result);
 }
 
+function query_upload(){
+	header('Content-type: application/json');
+	
+  	$q = $_POST;
+	$allowed = array('mp3', 'ogg');
+
+// 	if(!parse_cookie($q['id']) || !is_numeric($q['id']))
+//		die_query('authentication required', FALSE);     
+
+	if(!isset($_FILES['upl']) || $_FILES['upl']['error'] != 0)
+		die_query("can't upload file", FALSE);
+
+	$extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
+
+	if(!in_array(strtolower($extension), $allowed))
+		die_query("wrong file extension", FALSE);
+
+	$user = $q['id'];
+	$path = ABSPATH . '/write/' . $user;
+	$file = md5($_FILES['upl']['name'] . time()) . ".{$extension}";
+
+	if(!is_dir($path))
+		@mkdir($path);
+
+	if(!move_uploaded_file($_FILES['upl']['tmp_name'], "{$path}/{$file}"))
+		die_query("can't move uploaded file", FALSE); 
+
+	$db = db_connect();
+	if(!$db)
+		die_query("can't connect to database", FALSE);
+
+	$query = "INSERT INTO uploads (vkid, filename, path, created) VALUES (:user, :filename, :path, NOW())";
+
+    $result = db_query($db, $query, array(':user' => $user, ':filename' => $_FILES['upl']['name'], ':path' => $file));
+	
+	db_close($db);
+
+	if(!$result)
+		die_query("can't insert sound to database", FALSE); 
+	
+	die_query("successfully uploaded", TRUE);
+}
+
 function is_ajax(){
 	return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 }
@@ -250,9 +290,8 @@ function die_api($message, $success = FALSE){
 	exit($result);
 }
 
-
 function request_uri($url){
-	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users", "sounds" => "query_sounds");
+	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users", "sounds" => "query_sounds", "upload" => "query_upload");
 
 	preg_match("~^[a-z0-9]+~", $url, $uri);
 	$uri = array_shift($uri);                                    

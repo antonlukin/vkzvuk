@@ -29,9 +29,25 @@ function detect_browser(){
 	return false;
 }
 
+function format_filesize(bytes) {
+	if (typeof bytes !== 'number')
+		return '';
+
+	if (bytes >= 1000000000)
+		return (bytes / 1000000000).toFixed(2) + ' GB';
+
+	if (bytes >= 1000000)
+		return (bytes / 1000000).toFixed(2) + ' MB';
+
+	return (bytes / 1000).toFixed(2) + ' KB';
+}                    
+
 function show_error(message, hide){
  	if(typeof hide !== 'undefined' && hide) 
 		$(".main").css('visibility', 'hidden');
+
+	if(typeof message === 'undefined' || message == '')
+		return $("#alert").fadeOut();
 
 	$("#alert").html("<p>" + message + "</p>").fadeIn('fast'); 
 
@@ -233,19 +249,115 @@ $(document).ready(function(){
 		return show_sounds();
 	});
 
+	$(document).on('click', 'a#add', function(e){
+		e.preventDefault(); 
+
+		$(".board-list").fadeOut(function(){
+			$(".board-add").fadeIn();
+		});
+	});
+
+ 	$(document).on('click', 'a#list', function(e){
+		e.preventDefault(); 
+
+		$(".board-add").fadeOut(function(){
+			$(".board-list").fadeIn();
+		});
+	}); 
 
 	$("#login a").on('click touchstart', function(){ 
 		VK.Auth.login(vk_login);
 
 		return false;
 	}); 
-  	
+
+	$(document).on('click', '#drop button.browse', function(e){
+ 		e.preventDefault(); 
+ 
+		if(vkId === undefined)
+			return VK.Auth.login(function(response){
+				vk_login(response, true)
+			});    
+
+		$(this).parent().find('input').click();
+	}); 
+ 
+	$(document).on('drop dragover', function (e) {
+		e.preventDefault();
+	}); 
+
+	$('#upload').fileupload({
+
+		dropZone: $('#drop'),
+
+		formData: {id : vkId},
+		
+		add: function (e, data) {
+			show_error('');
+		
+			if(vkId === undefined)
+				return show_error(errors.vkauth);
+
+			$("#uploaded").slideUp(300);   
+		
+			if(data.files[0].size > 512000)
+				return show_error(errors.filesize);
+
+			var tpl = $('<div class="working"><input type="text" value="0" data-width="80" data-height="80"' +
+			' data-fgColor="#169bd3" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></div>');
+
+			tpl.find('p').text(data.files[0].name).append('<i>' + format_filesize(data.files[0].size) + '</i>');
+
+			data.context = tpl;
+		
+			$("#uploaded").slideDown(function(){
+				$(this).html(tpl);
+			});
+
+			tpl.find('input').knob();
+			tpl.find('span').click(function(){
+				if(tpl.hasClass('working'))
+					jqXHR.abort();
+			});
+
+			var jqXHR = data.submit();
+		},
+
+		progress: function(e, data){
+			var progress = parseInt(data.loaded / data.total * 100, 10);
+
+			data.context.find('input').val(progress).change();
+
+			if(progress == 100)
+				data.context.removeClass('working');
+		},
+
+		fail: function(e, data){
+			data.context.addClass('error');
+		},
+
+		done: function(e, data){
+			if(data.result.success){
+ 				$(".upload-desc").fadeOut(function(){
+					$(".upload-box").hide();
+					$(".upload-result").fadeIn();
+				}); 
+				
+				return false;
+			}
+			
+			$("#uploaded").slideUp();
+			return show_error(errors.upload);
+		}
+
+	});
+
 	update_container();
+
     $(window).resize(function() {
         update_container();
-    });
+    }); 
 
-	
 });
 
 

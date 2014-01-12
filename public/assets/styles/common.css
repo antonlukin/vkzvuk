@@ -21,7 +21,7 @@ a:hover{text-decoration:none}
 a.local{border-bottom:1px dashed;text-decoration:none;}
 a.local:hover{border:0;}
 
-button.download, button.change{padding:12px 35px 8px 35px; border:0; box-shadow:1px 1px 10px 0 #111; cursor:pointer;}
+button.browse, button.download, button.change{padding:12px 35px 8px 35px; border:0; box-shadow:1px 1px 10px 0 #111; cursor:pointer;}
 
 
 ::-moz-selection{background:#eee; color:#222; text-shadow:none;}
@@ -160,14 +160,14 @@ header{
 				margin:20px auto 0 auto;
                 border-bottom:solid 8px #912602;
 				background-color:rgb(242,63,3);
-				background-image: linear-gradient(bottom, rgb(180,46,1) 0%, rgb(242,63,3) 81%);
+				background-image: linear-gradient(to bottom, rgb(180,46,1) 0%, rgb(242,63,3) 81%);
  				background-image: -o-linear-gradient(bottom, rgb(180,46,1) 0%, rgb(242,63,3) 81%); 
   				background-image: -moz-linear-gradient(bottom, rgb(180,46,1) 0%, rgb(242,63,3) 81%);  
    				background-image: -webkit-linear-gradient(bottom, rgb(180,46,1) 0%, rgb(242,63,3) 81%);   
    				background-image: -ms-linear-gradient(bottom, rgb(180,46,1) 0%, rgb(242,63,3) 81%);    
 			}
 			.about button.download:hover{
-				background-image: linear-gradient(bottom, rgb(242,63,3) 0%, rgb(180,46,1) 81%);
+				background-image: linear-gradient(to bottom, rgb(242,63,3) 0%, rgb(180,46,1) 81%);
 				background-image: -o-linear-gradient(bottom, rgb(242,63,3) 0%, rgb(180,46,1) 81%);
 				background-image: -moz-linear-gradient(bottom, rgb(242,63,3) 0%, rgb(180,46,1) 81%);
 				background-image: -webkit-linear-gradient(bottom, rgb(242,63,3) 0%, rgb(180,46,1) 81%);
@@ -175,7 +175,7 @@ header{
 				background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(242,63,3)),color-stop(0.81, rgb(180,46,1)));
 			}
 			
-				.about button.download div{background:url(../images/sprite.png) 0 0; height:19px; width:110px;}
+				.about button.download div{background:url(../images/sprite.png) 0 0; height:19px; width:110px; text-indent:-9999px;}
  
 
 	.board{
@@ -189,6 +189,103 @@ header{
 		display:none;
 		z-index:6;
 	}
+		.board-add{display:none;}
+
+		.board h2{
+ 		 	width:100%;
+			margin:10px 0;
+			text-align:center;
+			font-size:1.5em;
+			color:#169bd3;
+			text-shadow:1px 1px #1f1f1f; 
+		}
+
+		#upload{
+			background: 9px 0 url(../images/board-line.png) no-repeat, 9px bottom url(../images/board-line.png) no-repeat;
+			padding:2px 19px 2px 9px;
+		}
+		.upload-title{color:#169bd3;}
+
+		.upload-inner{
+			 background:9px 0 url(../images/sounds-background.png) repeat;
+			 position:relative;
+			 min-height:300px;
+		}
+			
+			.upload-result{
+				display:none;
+				padding:50px 30px;
+				text-align:center;
+				font-size:1.3em;	
+				border-bottom:solid 2px #1a1a1a;
+			}
+				.upload-result h3{margin:10px 0; font-size:1.1em; color:#e53c05;}
+
+			.upload-box{
+				position:absolute;
+				top:30px;
+				left:20px;
+				width:200px;
+				height:100px;
+				text-align: center;
+				color:#999;
+				padding:70px 50px;
+				background:#191919;    
+				box-shadow: 0 0 2px 2px #111;
+			}
+				.upload-box p{font-size:1.1em; margin-bottom:10px;}
+				.upload-box input{display:none;} 
+			
+			.upload-desc{margin-left:360px; padding-top:30px; padding-right:20px; height:230px;}
+			.upload-desc ul li{font-size:1.3em; list-style:disc; padding:5px 0;} 
+			.upload-desc a{color:#e53c05;}
+
+
+		.upload-list{
+			position:relative;
+			left:0;
+			width:100%;
+			height:130px;
+			display:none;
+		}
+			.upload-list input{display:none;}
+
+			.upload-list canvas{
+				top: 25px;
+				left: 30px;
+				position: absolute;
+			}
+
+			.upload-list span{
+				width: 15px;
+				height: 12px;
+				background: url('../images/status-icons.png') no-repeat;
+				position: absolute;
+				top: 50px;
+				right: 30px;
+				cursor:pointer;
+			}
+
+			.upload-list div p{
+			 position:absolute;
+			 top:45px;
+			 left:130px;
+			 width:400px;
+			 padding-left:20px;
+			 padding-right:50px;
+			 text-align:left;
+			 font-size:1.3em;
+			}
+			.upload-list div p i{ 
+			  display:block;
+			  font-size:.8em;
+			  padding-top:5px;
+			}
+			.upload-list div.working span{
+				height: 16px;
+				background-position: 0 -12px;
+			}         
+
 		.board #sounds{
 			overflow-y:auto;
 			height:406px;
@@ -202,12 +299,7 @@ header{
 		}
 
 		.sounds-title{
-			width:100%;
-			margin:10px 0;
-			text-align:center;
-			font-size:1.5em;
 			color:#21d58c;
-			text-shadow:1px 1px #1f1f1f;
 		}
 
 		.sounds-wrapper{
@@ -241,28 +333,55 @@ header{
 				
 			.sounds-wrapper .ibutton-container{float:right;}
 
+			.board a.board-link{
+				display:block;
+				float:left;
+				font-size:1.4em;
+				color:#169bd3;
+				margin:20px 10px 0 10px;
+			}
+             
+			.board button.browse{
+				margin-top:10px;
+				border-bottom:solid 8px rgb(3,134,191);
+				background-color:rgb(22,155,211);
+				background-image: linear-gradient(to bottom, rgb(31,212,249) 0%, rgb(22,155,211) 81%);
+				background-image: -o-linear-gradient(bottom, rgb(22,155,211) 0%, rgb(31,212,249) 81%); 
+				background-image: -moz-linear-gradient(bottom, rgb(22,155,211) 0%, rgb(31,212,249) 81%);
+				background-image: -webkit-linear-gradient(bottom, rgb(22,155,211) 0%, rgb(31,212,249) 81%);
+				background-image: -ms-linear-gradient(bottom, rgb(22,155,211) 0%, rgb(31,212,249) 81%);   
+			}
+				.board button.browse:hover{
+					background-image: linear-gradient(to bottom, rgb(22,155,211) 0%, rgb(31,212,249) 81%);
+					background-image: -o-linear-gradient(bottom, rgb(31,212,249) 0%, rgb(22,155,211) 81%);
+					background-image: -moz-linear-gradient(bottom, rgb(31,212,249) 0%, rgb(22,155,211) 81%);
+					background-image: -webkit-linear-gradient(bottom, rgb(31,212,249) 0%, rgb(22,155,211) 81%);
+					background-image: -ms-linear-gradient(bottom, rgb(31,212,249) 0%, rgb(22,155,211) 81%);  
+				}
+			
+				.board button.browse div{background:url(../images/sprite.png) 7px -219px; height:19px; width:110px; text-indent:-9999px;} 
+
 			.board button.change{
 				margin-right:20px;
 				margin-top:10px;
 				float:right;
 				border-bottom:solid 8px #158458;
 				background-color:rgb(37,227,151);
-				background-image: linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%);
+				background-image: linear-gradient(to bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%);
  				background-image: -o-linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%); 
  				background-image: -moz-linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%); 
  				background-image: -webkit-linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%); 
  				background-image: -ms-linear-gradient(bottom, rgb(28,170,113) 0%, rgb(37,227,151) 81%); 
 			}
-			.board button.change:hover{
-				background-image: linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
-				background-image: -o-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
-				background-image: -moz-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
-				background-image: -webkit-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
-				background-image: -ms-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
-				background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(37,227,151)), color-stop(0.81, rgb(28,170,113))); 
-			}
+				.board button.change:hover{
+					background-image: linear-gradient(to bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
+					background-image: -o-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
+					background-image: -moz-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
+					background-image: -webkit-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
+					background-image: -ms-linear-gradient(bottom, rgb(37,227,151) 0%, rgb(28,170,113) 81%);
+				}
 			
-				.board button.change div{background:url(../images/sprite.png) 0 -19px; height:19px; width:110px;}
+				.board button.change div{background:url(../images/sprite.png) 0 -19px; height:19px; width:110px; text-indent:-9999px;}
 
    	                                  
 footer{
@@ -357,7 +476,7 @@ footer{
 		top:-45px;
 		right:10px;		
 		width:auto;
-		height:50px;
+		height:36px;
 		padding-left:40px;
 
 		background:transparent url('../images/sprite.png') 0 -162px no-repeat;
@@ -515,4 +634,3 @@ input:checked ~ .ibutton-handle{background: transparent url(../images/handler.pn
 	.browser-list div.chrome{background-position:0 0;}
  	.browser-list div.firefox{background-position:-100px 0;} 
  	.browser-list div.opera{background-position:-195px 0;} 
-
