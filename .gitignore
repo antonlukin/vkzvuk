@@ -1,5 +1,4 @@
 assets/*
-users/
 addons/release
 config/settings.php
-checker/
+write/
