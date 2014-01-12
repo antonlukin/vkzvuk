@@ -207,7 +207,7 @@ header{
 		.upload-title{color:#169bd3;}
 
 		.upload-inner{
-			 background:9px 0 url(../images/sounds-background.png) repeat;
+			 background:9px 0 url(../images/sounds-background.jpg) repeat;
 			 position:relative;
 			 min-height:300px;
 		}
@@ -308,7 +308,7 @@ header{
 			margin:5px 0 5px 10px;
 			padding:1px 3px 0 4px;
 			min-height:47px;
-			background:#222 url(../images/sounds-background.png) repeat 0 0;
+			background:#222 url(../images/sounds-background.jpg) repeat 0 0;
 			box-shadow: 1px 1px 3px 1px #111;
 		}
 			.sounds-wrapper .sounds-pleer{
@@ -542,7 +542,7 @@ width: 45px;}
 	top:5px;
 	z-index:2; 
 	background-color: #1c1c1c;
-	background-image: url(../images/switcher.png), url(../images/sounds-background.png); 
+	background-image: url(../images/switcher.png), url(../images/sounds-background.jpg); 
 	background-repeat:no-repeat,repeat;
 }
 
