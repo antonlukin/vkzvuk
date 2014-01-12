@@ -222,7 +222,7 @@ function query_sounds(){
 	$db = db_connect() or 
 		die_query('cannot connect to db', FALSE);
 
-	$sounds = db_select($db, "SELECT slug, title FROM sounds  -- WHERE hidden <> 1");
+	$sounds = db_select($db, "SELECT slug, title FROM sounds WHERE hidden <> 1");
 
 	if(!$sounds)
 		die_query('cannot select data from db', FALSE);
@@ -239,8 +239,8 @@ function query_upload(){
   	$q = $_POST;
 	$allowed = array('mp3', 'ogg');
 
-// 	if(!parse_cookie($q['id']) || !is_numeric($q['id']))
-//		die_query('authentication required', FALSE);     
+	if(!parse_cookie($q['id']) || !is_numeric($q['id']))
+		die_query('authentication required', FALSE);
 
 	if(!isset($_FILES['upl']) || $_FILES['upl']['error'] != 0)
 		die_query("can't upload file", FALSE);
