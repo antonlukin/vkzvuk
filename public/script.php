@@ -222,7 +222,7 @@ function query_sounds(){
 	$db = db_connect() or 
 		die_query('cannot connect to db', FALSE);
 
-	$sounds = db_select($db, "SELECT slug, title FROM sounds WHERE hidden <> 1");
+	$sounds = db_select($db, "SELECT slug, title FROM sounds WHERE hidden <> 1 ORDER BY id DESC");
 
 	if(!$sounds)
 		die_query('cannot select data from db', FALSE);
