@@ -572,7 +572,7 @@ input:checked ~ .ibutton-handle{background: transparent url(../images/handler.pn
 	.mCSB_scrollTools a+.mCSB_draggerContainer{margin:20px 0; }
 	.mCSB_scrollTools .mCSB_draggerRail{width:2px; height:100%; margin:0 auto; -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px; }
 	.mCSB_scrollTools .mCSB_dragger{cursor:pointer; width:100%; height:30px; }
-	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{width:5px; height:100%; margin:0 auto; -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px; text-align:center; }
+	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{width:3px; height:100%; margin:0 auto; -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px; text-align:center; }
 	.mCSB_scrollTools .mCSB_buttonUp,
 	.mCSB_scrollTools .mCSB_buttonDown{display:block; position:relative; height:20px; overflow:hidden; margin:0 auto; cursor:pointer;}
 	.mCSB_scrollTools .mCSB_buttonDown{top:100%; margin-top:-40px;}
@@ -582,7 +582,7 @@ input:checked ~ .ibutton-handle{background: transparent url(../images/handler.pn
 	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
 	.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar,
 	.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
-	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{background:#1a1a1a;} 
+	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{background:#ccc} 
 
 .browser-lock{display:none;}
 
