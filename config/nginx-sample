@@ -19,7 +19,6 @@ server {
 
 	rewrite ^/$ https://vkzvuk.ru break;
 } 
- 
 
 server {
 	listen 443;
@@ -33,6 +32,8 @@ server {
 	error_log   /var/log/http/vkzvuk_nginx_error.log  warn;  
 	index index.html;
 
+ 	set $devlock 'fhU3hg0d93s'; 
+
 	add_header X-Frame-Options DENY;
 	add_header X-Content-Type-Options nosniff;
 	add_header X-XSS-Protection "1; mode=block;";
@@ -41,9 +42,8 @@ server {
 		return 403;
 	}
 
-	rewrite ^/(.*)/$ /$1 permanent;
 	rewrite ^/policy /privacy permanent;
-
+ 
 	location ~* ^\/update\/(.*)\/(.*)\.(xml|rdf)$ {
 		types {
  			text/html rdf, html;
@@ -68,8 +68,52 @@ server {
 			application/octet-stream oex;						
 		}  
 		alias /srv/http/addons.vkzvuk.ru/release/$1.$2;
-	}                                        
- 
+	}                                  
+
+	location ~* ^\/(apc|db)\/?$ {
+		access_log off; 
+
+		if ($http_x_devlock != $devlock) {
+			return 301 https://vkzvuk.ru;
+		}    
+
+ 		include fastcgi_params; 
+	
+		fastcgi_param SCRIPT_FILENAME /home/storage/vkzvuk.ru/scripts/$1.php;
+		fastcgi_param QUERY_STRING    $query_string;
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		proxy_read_timeout 512;
+		fastcgi_pass 127.0.0.1:9000; 
+	}
+
+	location ~* ^\/list\/(.*\.(mp3|ogg|js))$ {
+		return 301 https://assets.vkzvuk.ru/$1; 
+	}                     
+
+	location ~* ^\/list(.*) {
+		autoindex on;
+		alias /srv/http/assets.vkzvuk.ru$1;
+	}     
+
+	location ~* ^\/uploads(.*)$ {
+		access_log off; 
+
+		if ($http_x_devlock != $devlock) {
+			return 301 https://vkzvuk.ru;
+		}       
+	
+		autoindex on;
+		alias /home/webspace/vkzvuk.ru/write$1;
+	}
+
+	location ~* ^\/status?$ {
+		access_log off;
+		
+		deny all;     
+
+		include fastcgi_params;
+		fastcgi_pass 127.0.0.1:9000;
+	}
 
 	location ~* \.(css|png|jpg|jpeg|gif|ico|js)$ {
 		expires 2w;
@@ -93,6 +137,7 @@ server {
 	}
 
 	location / {
+		rewrite ^/(.*)/$ /$1 permanent;
 		try_files $uri $uri/ /pages/$uri/index.html  /script.php?$args;
 	}   
 

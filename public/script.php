@@ -217,6 +217,9 @@ function query_users(){
 }
 
 function query_sounds(){
+	if(!is_ajax())
+		header("Location: /"); 
+
 	header('Content-type: application/json');  
 
 	$db = db_connect() or 
