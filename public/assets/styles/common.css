@@ -582,7 +582,7 @@ input:checked ~ .ibutton-handle{background: transparent url(../images/handler.pn
 	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
 	.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar,
 	.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
-	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{background:#ccc} 
+	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{background:#1a1a1a;} 
 
 .browser-lock{display:none;}
 
