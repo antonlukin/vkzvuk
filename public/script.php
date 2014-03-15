@@ -192,7 +192,7 @@ function query_change(){
 
 	$q = $_POST;
 
- 	if(!parse_cookie($q['id']))
+ 	if(!isset($q['id']) || !parse_cookie($q['id']))
 		die_query('authentication required', FALSE);   
 
 	if(!change_sound($q['id'], $q['sound']))
@@ -203,7 +203,7 @@ function query_change(){
 
 function query_users(){
 	if(!is_ajax())
-		header("Location: /");
+		die_redirect("/");
 
 	header('Content-type: application/json');  
 
@@ -218,7 +218,7 @@ function query_users(){
 
 function query_sounds(){
 	if(!is_ajax())
-		header("Location: /"); 
+		die_redirect("/"); 
 
 	header('Content-type: application/json');  
 
@@ -242,7 +242,7 @@ function query_upload(){
   	$q = $_POST;
 	$allowed = array('mp3', 'ogg');
 
-	if(!parse_cookie($q['id']) || !is_numeric($q['id']))
+	if(!isset($q['id']) || !parse_cookie($q['id']))
 		die_query('authentication required', FALSE);
 
 	if(!isset($_FILES['upl']) || $_FILES['upl']['error'] != 0)
@@ -293,17 +293,23 @@ function die_api($message, $success = FALSE){
 	exit($result);
 }
 
+function die_redirect($location){
+	header("Location: " . $location);
+	exit();
+}
+
 function request_uri($url){
 	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users", "sounds" => "query_sounds", "upload" => "query_upload");
 
 	preg_match("~^[a-z0-9]+~", $url, $uri);
 	$uri = array_shift($uri);                                    
 
-	if(!array_key_exists($uri, $locations) || !function_exists($execution = $locations[$uri]))
+	if(!array_key_exists($uri, $locations) || !function_exists($execution = $locations[$uri])){
 		if(is_ajax())
 			die_query("unsigned request");
 		else
-			header("Location: /");
+			die_redirect("/");  
+	}
 
 	$execution();
 } 
