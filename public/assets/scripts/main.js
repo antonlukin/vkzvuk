@@ -73,7 +73,16 @@ function generate_list(){
  				$(pleer).find("input").val(item.slug);  
 			});
 
-			$("#sounds").mCustomScrollbar({advanced:{updateOnContentResize: true}});
+			$("p.sounds-tip").prependTo("#sounds");
+
+			$("#sounds").mCustomScrollbar({
+				advanced:{updateOnContentResize: true},
+				callbacks:{
+					onScrollStart:function(){
+						$("#sounds .sounds-tip").slideUp();
+					}
+				}
+			});
 			$(":radio").iButton(); 
 		}
 	});        

@@ -53,7 +53,7 @@ body{
 	min-width:1150px;
 	max-height:100%;
 	height:100%;
-	min-height:750px; 
+	min-height:850px; 
 	margin-top:-51px;
 	margin-bottom:-100px;
 }
@@ -184,7 +184,6 @@ header{
 		margin-top:-200px;
 		right:20px;
 		width:655px;
-		height:520px;
 		
 		display:none;
 		z-index:6;
@@ -288,7 +287,7 @@ header{
 
 		.board #sounds{
 			overflow-y:auto;
-			height:406px;
+			height:450px;
 
 			background:	9px 0 url(../images/board-line.png) no-repeat, 9px bottom url(../images/board-line.png) no-repeat;
 			padding:2px 0;
@@ -301,6 +300,22 @@ header{
 		.sounds-title{
 			color:#21d58c;
 		}
+
+		.sounds-tip{
+			height:20px;
+			margin:2px 0 2px 9px;			
+			padding:10px;
+			color:#fff;
+			font-size:1.4em;
+			text-align:center;
+			position:relative;
+			text-shadow:none;
+		}
+			.sounds-tip b{
+				font-size:1.4em;
+				padding-left:10px;
+				line-height:15px;
+			}
 
 		.sounds-wrapper{
 			width:300px;
@@ -578,11 +593,11 @@ input:checked ~ .ibutton-handle{background: transparent url(../images/handler.pn
 	.mCSB_scrollTools .mCSB_buttonDown{top:100%; margin-top:-40px;}
 	.mCustomScrollBox>.mCSB_scrollTools{opacity:0.75;}
 	.mCustomScrollBox:hover>.mCSB_scrollTools{opacity:1;}
-	.mCSB_scrollTools .mCSB_draggerRail{background:rgba(200,200,200,0.4);}
+	.mCSB_scrollTools .mCSB_draggerRail{background:rgba(0,0,0,0.4);}
 	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
 	.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar,
 	.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
-	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{background:#ccc;} 
+	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{background:#1a1a1a;} 
 
 .browser-lock{display:none;}
 
