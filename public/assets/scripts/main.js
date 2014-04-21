@@ -174,7 +174,7 @@ function change_sound(id){
 			vk_login(response, true)
 		});
 
- 	vk_refresh(); 
+ 	vk_refresh(sound); 
 
 	$.ajax({
 		type: 'POST', url: '/change', data: "id=" + id + "&sound=" + sound, 
@@ -191,9 +191,9 @@ function change_sound(id){
 	return false;
 }
 
-function vk_refresh(){
+function vk_refresh(sound){
 	var link = document.createElement('a');
-	link.href = 'https://vk.com/settings?vkz-clear';
+	link.href = 'https://vk.com/settings?vkz-clear=' + sound;
 	link.setAttribute('target', '_blank');
 	document.body.appendChild(link);
 	link.click();    
