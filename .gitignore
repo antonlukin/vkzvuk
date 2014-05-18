@@ -2,3 +2,5 @@ assets/*
 addons/release
 config/settings.php
 write/
+scripts/
+checker/
