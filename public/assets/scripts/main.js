@@ -390,5 +390,11 @@ $(window).load(function(){
 
 	});
 
+	if(window.location.hash == '#logout'){
+		VK.Auth.logout(function(){
+			location.href = 'https://vkzvuk.ru';
+		});
+	}
+
 	show_users();
 }); 
