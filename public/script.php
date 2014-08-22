@@ -162,7 +162,7 @@ function change_sound($user_id, $sound){
 }
 
 function query_api(){
-	header('Content-type: application/json'); 
+	header('Content-type: application/javascript'); 
 
 	$q = $_GET;
 	
