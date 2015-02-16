@@ -193,7 +193,7 @@ function change_sound(id){
 
 function vk_refresh(sound){
 	var link = document.createElement('a');
-	link.href = 'https://vk.com/settings?vkz-clear=' + sound;
+	link.href = 'http://vk.com/settings?vkz-clear=' + sound;
 	link.setAttribute('target', '_blank');
 	document.body.appendChild(link);
 	link.click();    
@@ -205,7 +205,7 @@ function vk_login(response, change){
 	vkId = response.session.mid;
 	
 	if(change === true)
- 		change_sound(vkId);
+ 		location.reload();
 
 	var code = 'return {me: API.getProfiles({uids: "' + vkId + '", fields: "first_name, last_name, photo_rec, nickname"})[0]};';
 	VK.Api.call('execute', {'code': code}, function(cu){
