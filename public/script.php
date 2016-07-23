@@ -299,7 +299,7 @@ function die_redirect($location){
 }
 
 function request_uri($url){
-	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users", "sounds" => "query_sounds", "upload" => "query_upload");
+	$locations = array("api" => "query_api", "get" => "query_get", "change" => "query_change", "users" => "query_users", "sounds" => "query_sounds");
 
 	preg_match("~^[a-z0-9]+~", $url, $uri);
 	$uri = array_shift($uri);                                    
