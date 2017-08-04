@@ -1,4 +1,5 @@
 assets/*
+.well-known/
 addons/release
 config/settings.php
 write/
