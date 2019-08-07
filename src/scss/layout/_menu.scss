@@ -1,0 +1,49 @@
+.menu {
+  display: flex;
+  align-items: center;
+  user-select: none;
+
+  .menu__item {
+    display: flex;
+    position: relative;
+
+    margin: 0 1.25rem;
+
+    font-weight: 300;
+    color: white;
+    text-decoration: none;
+    transition: all .3s;
+
+    &:before, &:after {
+      content: "";
+
+      position: absolute;
+      bottom: -.75rem;
+
+      width: 0;
+      height: 2px;
+
+      background-color: $color-primary;
+
+      transition: width .3s;
+    }
+
+    &:before {
+      right: 50%;
+    }
+
+    &:after {
+      left: 50%;
+    }
+
+    &:hover {
+      &:after, &:before {
+        width: 50%;
+      }
+    }
+  }
+
+  .menu__button {
+    margin-left: 3rem;
+  }
+}

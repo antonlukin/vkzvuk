@@ -1,0 +1,8 @@
+.screen {
+  display: block;
+
+  &.screen--promo {
+    min-height: 100vh;
+    background-color: $color-bg-promo;
+  }
+}

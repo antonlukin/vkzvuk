@@ -1,0 +1,36 @@
+.button {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+
+  padding: .625rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: white;
+  background-color: $color-primary;
+  border-radius: .25rem;
+
+  transition: all .3s;
+
+  &:hover {
+    background-color: $color-primary-hover;
+  }
+
+  &.button--download {
+    margin: 2rem 0;
+    padding: 1rem;
+    padding-left: 3.5rem;
+    font-size: 1.125rem;
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+
+      font-size: 1.5rem;
+
+      transform: translateY(-50%);
+    }
+  }
+}

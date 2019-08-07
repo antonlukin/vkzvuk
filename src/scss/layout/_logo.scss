@@ -1,0 +1,30 @@
+.logo {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+  font-weight: 300;
+
+  .logo__image {
+    display: block;
+
+    width: 3rem;
+    height: 3rem;
+
+    margin-right: 1.25rem;
+
+    text-indent: -9999rem;
+
+    mask-image: url(images/logo.svg);
+    mask-position: left center;
+    mask-repeat: no-repeat;
+
+    background: linear-gradient(45deg, #12acf6, #a412f6);
+    background-size: 400% 400%;
+    animation: gradient 4s ease infinite;
+  }
+
+
+}

@@ -1,0 +1,27 @@
+.surface {
+  display: flex;
+  position: relative;
+
+  align-items: flex-start;
+	flex-flow: column wrap;
+	justify-content: center;
+
+  &.surface--promo {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+
+		padding: 5rem 50% 5rem 0;
+
+    text-align: left;
+
+    background: url('images/cover.jpg') right center no-repeat;
+    background-size: 50% auto;
+
+    @media screen and (max-width: 1023px) {
+      padding-right: 0;
+
+      background-image: none;
+    }
+  }
+}

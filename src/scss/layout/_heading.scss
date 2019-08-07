@@ -1,0 +1,23 @@
+.heading {
+  display: block;
+
+  width: 100%;
+  margin: .5rem 0;
+
+  font-size: 1.125rem;
+  font-weight: 300;
+
+  &.heading--top {
+    margin: 1rem 0;
+    font-size: 2rem;
+    line-height: 1.25;
+
+    @media screen and (max-width: 767px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    font-size: 1rem;
+  }
+}

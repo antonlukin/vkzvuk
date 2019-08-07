@@ -1,0 +1,14 @@
+.container {
+  display: block;
+  position: relative;
+
+  max-width: 90rem;
+  margin: auto;
+  padding-left: 4rem;
+  padding-right: 4rem;
+
+  @media screen and (max-width: 1279px) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
