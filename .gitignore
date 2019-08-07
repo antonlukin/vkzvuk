@@ -1,7 +1,2 @@
-assets/*
-.well-known/
-addons/release
-config/settings.php
-write/
-scripts/
-checker/
+/sounds/
+/public/settings.php
