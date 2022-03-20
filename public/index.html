@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+
+    <style>
+        .file {
+            opacity: 0;
+            width: 0.1px;
+            height: 0.1px;
+            position: absolute;
+        }
+
+        .file-input label {
+            display: block;
+            position: relative;
+            width: 200px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(40deg, #ff6ec4, #7873f5);
+            box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: transform .2s ease-out;
+        }
+
+
+        input:hover+label,
+        input:focus+label {
+            transform: scale(1.02);
+        }
+
+        input:focus+label {
+            outline: 1px solid #000;
+            outline: -webkit-focus-ring-color auto 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form" method="post" enctype="multipart/form-data" action="/upload/">
+        <div>
+            <div class="file-input">
+                <input type="file" name="sound" id="file" class="file">
+                <label for="file">
+                    Select file
+                    <p class="file-name"></p>
+                </label>
+            </div>
+
+            <p>
+                <input type="text" name="title" value="" placeholder="Название" maxlength="24">
+            </p>
+        </div>
+
+        <div>
+            <button>Submit</button>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        VK.init({
+            apiId: 3402716
+        });
+
+        const form = document.getElementById('form');
+
+        const file = document.querySelector('#file');
+        file.addEventListener('change', (e) => {
+            // Get the selected file
+            const [file] = e.target.files;
+            // Get the file name and size
+            const { name: fileName, size } = file;
+            // Convert size in bytes to kilo bytes
+            const fileSize = (size / 1000).toFixed(2);
+            // Set the text content
+            const fileNameAndSize = `${fileName} - ${fileSize}KB`;
+            document.querySelector('.file-name').textContent = fileNameAndSize;
+        });
+
+        VK.Auth.getLoginStatus((response) => {
+            console.log(response);
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const payload = new FormData(form);
+
+                for (key in response.session) {
+                    payload.append(key, response.session[key]);
+                }
+
+                const request = new XMLHttpRequest();
+
+                request.open('POST', '/upload/', true);
+
+                request.onload = function () {
+                    console.log(request.response);
+                };
+
+                request.send(payload);
+            })
+        });
+    </script>
+
+    <script>
+
+
+        /*
+        document.getElementById('login').addEventListener('click', () => {
+            VK.Auth.login(function(response) {
+                if (response.session) {
+                    console.log(response.session);
+                } else {
+
+                }
+            });
+        }); */
+    </script>
+</body>
+
+</html>
