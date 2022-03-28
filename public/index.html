@@ -1,127 +1,59 @@
 <!doctype html>
 <html>
-
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="/images/icon-128.png">
 
+    <title>Проект закрыт навсегда</title>
     <style>
-        .file {
-            opacity: 0;
-            width: 0.1px;
-            height: 0.1px;
-            position: absolute;
-        }
+        body {
+            max-width: 32rem;
+            padding: 7vw 5vw 4rem;
+            font: 300 16px/1.5 -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            letter-spacing: 0.25px;
 
-        .file-input label {
-            display: block;
-            position: relative;
-            width: 200px;
-            height: 50px;
-            border-radius: 25px;
-            background: linear-gradient(40deg, #ff6ec4, #7873f5);
-            box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: #fff;
-            cursor: pointer;
-            transition: transform .2s ease-out;
+            background: #000;
         }
 
-
-        input:hover+label,
-        input:focus+label {
-            transform: scale(1.02);
+        h1 {
+            width: 100%;
+            font-size: 1.75rem;
+            font-weight: 300;
+            line-height: 1.25;
         }
 
-        input:focus+label {
-            outline: 1px solid #000;
-            outline: -webkit-focus-ring-color auto 2px;
+        p {
+            margin: 1rem 0;
+        }
+
+        a {
+            color: #5d96ff;
+            text-decoration: none;
+
+            border-bottom: solid 1px;
+
+            transition: border 0.25s;
+        }
+
+        a:hover {
+            border-bottom-color: transparent;
         }
     </style>
 </head>
 
 <body>
-    <form id="form" method="post" enctype="multipart/form-data" action="/upload/">
-        <div>
-            <div class="file-input">
-                <input type="file" name="sound" id="file" class="file">
-                <label for="file">
-                    Select file
-                    <p class="file-name"></p>
-                </label>
-            </div>
+    <h1>Проект закрыт навсегда</h1>
 
-            <p>
-                <input type="text" name="title" value="" placeholder="Название" maxlength="24">
-            </p>
-        </div>
+    <p>
+        Не в последнюю очередь это связано с действиями администрации ВКонтакте по поддержке силовых структур РФ.
+        Со&nbsp;своей стороны крайне не рекомендую вести любые переписки с личной страницы в этой социальной сети.
+    </p>
 
-        <div>
-            <button>Submit</button>
-        </div>
-    </form>
-
-    <script type="text/javascript">
-        VK.init({
-            apiId: 3402716
-        });
-
-        const form = document.getElementById('form');
-
-        const file = document.querySelector('#file');
-        file.addEventListener('change', (e) => {
-            // Get the selected file
-            const [file] = e.target.files;
-            // Get the file name and size
-            const { name: fileName, size } = file;
-            // Convert size in bytes to kilo bytes
-            const fileSize = (size / 1000).toFixed(2);
-            // Set the text content
-            const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-            document.querySelector('.file-name').textContent = fileNameAndSize;
-        });
-
-        VK.Auth.getLoginStatus((response) => {
-            console.log(response);
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const payload = new FormData(form);
-
-                for (key in response.session) {
-                    payload.append(key, response.session[key]);
-                }
-
-                const request = new XMLHttpRequest();
-
-                request.open('POST', '/upload/', true);
-
-                request.onload = function () {
-                    console.log(request.response);
-                };
-
-                request.send(payload);
-            })
-        });
-    </script>
-
-    <script>
-
-
-        /*
-        document.getElementById('login').addEventListener('click', () => {
-            VK.Auth.login(function(response) {
-                if (response.session) {
-                    console.log(response.session);
-                } else {
-
-                }
-            });
-        }); */
-    </script>
+    <p>
+        <a href="https://github.com/antonlukin/vkzvuk" target="_blank" rel="noopener">Перейти на Github</a>
+    </p>
 </body>
-
 </html>
