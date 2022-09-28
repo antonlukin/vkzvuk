@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/sound.mp3"
+            }
+        },
+        "condition": {
+            "urlFilter": "https://vk.com/mp3/bb*",
+            "resourceTypes": [
+                "media"
+            ]
+        }
+    }
+]
